@@ -36,7 +36,7 @@ public class QueryCustomerForm {
    private final String JDBC_DRIVER = "com.mysql.jdbc.Driver";        
    private final String DATABASE_URL = "jdbc:mysql://localhost/purchases";
    private final String UserName_SQL = "root";
-   private final String Password_SQL = "Lwhzyy520";
+   private final String Password_SQL = "password";
    
    private JPanel topPanel = new JPanel();
    private JPanel panel = new JPanel();
@@ -330,7 +330,7 @@ public class QueryCustomerForm {
 			    
 			    int result = JOptionPane.showConfirmDialog(null, panel,"Update Customer Record", JOptionPane.OK_CANCEL_OPTION);
 			      if (result == JOptionPane.OK_OPTION) {
-			    	  if (!firstNameField.getText().equals(firstName) || !lastNameField.getText().equals(lastName) || !addressField.getText().equals(address) && !phoneNumField.getText().equals(phoneNum)) {
+			    	  if (true) {
 			    		 
 			    		  String newFirstName = firstNameField.getText();
 			    		  String newLastName = lastNameField.getText();

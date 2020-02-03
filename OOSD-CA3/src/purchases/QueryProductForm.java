@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -35,7 +36,7 @@ public class QueryProductForm {
    private final String JDBC_DRIVER = "com.mysql.jdbc.Driver";        
    private final String DATABASE_URL = "jdbc:mysql://localhost/purchases";
    private final String UserName_SQL = "root";
-   private final String Password_SQL = "Lwhzyy520";
+   private final String Password_SQL = "password";
    
    private JPanel topPanel = new JPanel();
    private JPanel panel = new JPanel();
@@ -245,7 +246,77 @@ public class QueryProductForm {
    
    private class updateButtonHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(null,"under construction");	
+			if(jtable.getSelectedRow() != -1) {
+				JTextField productNameField = new JTextField(10);
+				JTextField descriptionField = new JTextField(10);
+				JTextField priceField = new JTextField(10);
+				
+				int selectedRow = jtable.getSelectedRow();
+				
+				String productId = model.getValueAt(selectedRow,0).toString();
+				String productName = model.getValueAt(selectedRow,1).toString();
+				String description = model.getValueAt(selectedRow,2).toString();
+				String price = model.getValueAt(selectedRow,3).toString();
+				
+				productNameField.setText(productName);
+				descriptionField.setText(description);
+				priceField.setText(price);
+				
+			    JPanel panel = new JPanel();
+			    panel.setPreferredSize(new Dimension(200,250));
+			    panel.setLayout(new GridLayout(10, 1));
+			    panel.add(new JLabel("product Name:"));
+			    panel.add(productNameField);
+			    panel.add(new JLabel("Description:"));
+			    panel.add(descriptionField);
+			    panel.add(new JLabel("Price:"));
+			    panel.add(priceField);
+
+			    
+			    int result = JOptionPane.showConfirmDialog(null, panel,"Update Customer Record", JOptionPane.OK_CANCEL_OPTION);
+			      if (result == JOptionPane.OK_OPTION) {
+			    	  //Validation
+			    	  if (true) {
+			    		 
+			    		  String newproductName = productNameField.getText();
+			    		  String newdescription = descriptionField.getText();
+			    		  String newPrice = priceField.getText();
+			    		  
+			    		  Connection connection = null;
+			    		  Statement statement = null;
+			    		  
+			    		try {
+			    			connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
+			  				statement = connection.createStatement();
+			  				statement.executeUpdate("UPDATE product SET productName = '" + newproductName + "', description = '" + newdescription + "', price = '" + newPrice + "' WHERE productId = '" + productId + "'");
+			  			}//end try
+			    		  
+			    		catch(SQLException sqlException ) {
+			    			sqlException . printStackTrace () ;
+			  			}//end catch
+			  						
+			  			finally {
+			  				try {
+			  					statement. close () ;
+			  					connection. close () ;
+			  				}//end try
+			  								
+			  				catch ( Exception exception ) {
+			  					exception . printStackTrace () ;
+			  				}//end catch
+			  			}//end finally
+			    		JOptionPane.showMessageDialog(null,"Record Updated");
+			    	  }//end if
+			    	  else {
+			    		  JOptionPane.showMessageDialog(null,"All Record is the same as Old one");
+			    	  }//end else
+			      }//end if
+				
+			}
+			else {
+				JOptionPane.showMessageDialog(null,"Please select a Record");
+			}
+				
 		}//end actionPerformed
    }//end updateActionListener
    
@@ -253,7 +324,42 @@ public class QueryProductForm {
    
    private class deleteButtonHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(null,"under construction");	
+			if(jtable.getSelectedRow() != -1) {
+				
+				Connection connection = null;
+				Statement statement = null;
+			
+				int selectedRowIndex = jtable.getSelectedRow();
+				String deleteId = model.getValueAt(selectedRowIndex,0).toString();
+
+				
+				try {
+				connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
+				statement = connection.createStatement();
+				statement.executeUpdate ("DELETE FROM Product WHERE productId = '" + deleteId + "' ");
+				
+				}//end try
+
+				catch(SQLException sqlException ) {
+					sqlException . printStackTrace () ;
+				}//end catch
+				
+				finally {
+					try {
+						statement. close () ;
+						connection. close () ;
+					}//end try
+					
+					catch (Exception exception) {
+						exception . printStackTrace () ;
+					}//end catch
+				}//end finally
+				model.removeRow(jtable.getSelectedRow());
+				JOptionPane.showMessageDialog(null,"Deleted successfully");		
+			}//end if
+			else {
+				JOptionPane.showMessageDialog(null,"Please select a record");
+			}
 		}//end actionPerformed
    }//end deleteActionListener
    
