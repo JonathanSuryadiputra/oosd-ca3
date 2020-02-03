@@ -36,7 +36,7 @@ public class QueryInvoiceForm {
 	private final String JDBC_DRIVER = "com.mysql.jdbc.Driver";        
 	private final String DATABASE_URL = "jdbc:mysql://localhost/purchases";
 	private final String UserName_SQL = "root";
-	private final String Password_SQL = "password";
+	private final String Password_SQL = "Lwhzyy520";
 	private JPanel topPanel = new JPanel();
 	private JPanel panel = new JPanel();
 	private JPanel bottomPanel = new JPanel();

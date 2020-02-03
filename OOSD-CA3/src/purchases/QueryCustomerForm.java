@@ -36,7 +36,7 @@ public class QueryCustomerForm {
    private final String JDBC_DRIVER = "com.mysql.jdbc.Driver";        
    private final String DATABASE_URL = "jdbc:mysql://localhost/purchases";
    private final String UserName_SQL = "root";
-   private final String Password_SQL = "password";
+   private final String Password_SQL = "Lwhzyy520";
    
    private JPanel topPanel = new JPanel();
    private JPanel panel = new JPanel();
@@ -225,7 +225,7 @@ public class QueryCustomerForm {
 						try {
 							connection = DriverManager.getConnection( DATABASE_URL, UserName_SQL, Password_SQL );
 							statement = connection.createStatement();
-							statement.executeUpdate("INSERT INTO customer (customerId, lastName, address, phoneNumber)" + " VALUES " + "('" + firstName + "','" + lastName + "','" + address + "','" + phoneNum + "')");
+							statement.executeUpdate("INSERT INTO customer (firstName, lastName, address, phoneNumber)" + " VALUES " + "('" + firstName + "','" + lastName + "','" + address + "','" + phoneNum + "')");
 						}//end try
 							
 						catch(SQLException sqlException) {
