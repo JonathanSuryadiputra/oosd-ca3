@@ -184,61 +184,11 @@ public class QueryProductForm {
 	   
 	   	@Override
 		public void actionPerformed(ActionEvent e) {
-		      JTextField ProductNameField = new JTextField(10);
-		      JTextField DescriptionField = new JTextField(10);
-		      JTextField PriceField = new JTextField(100);
-		      
-		      JPanel panel = new JPanel();
-		      panel.setPreferredSize(new Dimension(200,250));
-		      panel.setLayout(new GridLayout(10, 1));
-		      panel.add(new JLabel("Product Name:"));
-		      panel.add(ProductNameField);
-		      panel.add(new JLabel("Description:"));
-		      panel.add(DescriptionField);
-		      panel.add(new JLabel("Price:"));
-		      panel.add(PriceField);
-
-		      int result = JOptionPane.showConfirmDialog(null, panel,"Create new Record", JOptionPane.OK_CANCEL_OPTION);
-		      
-		      /* click OK and go */
-		      if (result == JOptionPane.OK_OPTION) {
-		    	  
-		      /* ***************************************************************************************** */  	  
-		    	  if (!ProductNameField.getText().equals("") && !DescriptionField.getText().equals("") && !PriceField.getText().equals("")) {
-						
-		    		  	String productName = ProductNameField.getText();
-					  	String description = DescriptionField.getText();
-					  	String price = PriceField.getText();
-		    		  
-						Connection connection = null;
-						Statement statement = null;
-
-						try {
-							connection = DriverManager.getConnection( DATABASE_URL, UserName_SQL, Password_SQL );
-							statement = connection.createStatement();
-							statement.executeUpdate("INSERT INTO product ( productName , description, price)" + " VALUES " + "('" + productName + "','" + description + "','" + price + "')");
-						}//end try
-							
-						catch(SQLException sqlException) {
-							sqlException.printStackTrace();
-						}//catch
-							
-						finally {
-							try {
-								statement.close();
-								connection.close();
-							}//end try
-								
-							catch ( Exception exception ) {
-								exception.printStackTrace();
-							}//end catch
-							
-						}//end finally		
-						
-						JOptionPane.showMessageDialog(null,"Added to Database");
-					}//end if
-
-		      }//end outer if
+			    AddProductForm productForm = new AddProductForm("Customer Form");
+			    productForm.setSize(275, 350);
+			    productForm.setLocation(400, 300);
+			    productForm.setLocationRelativeTo(null);
+			    productForm.setVisible(true); 
 		}//end actionPerformed
   }//end addActionListener
    

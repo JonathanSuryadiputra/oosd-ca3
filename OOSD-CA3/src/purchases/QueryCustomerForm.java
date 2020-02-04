@@ -1,6 +1,7 @@
 package purchases;
 
 import java.sql.Connection;
+
 import java.sql.Statement;
 import java.util.Vector;
 import java.sql.DriverManager;
@@ -28,6 +29,8 @@ import java.awt.Color;
 import java.awt.Dimension; 
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+
+import purchases.AddCustomerForm;
 
 public class QueryCustomerForm {
 	
@@ -188,66 +191,11 @@ public class QueryCustomerForm {
 		
 	   @Override
 	   public void actionPerformed(ActionEvent e) {
-			
-		      JTextField firstNameField = new JTextField(10);
-		      JTextField lastNameField = new JTextField(10);
-		      JTextField addressField = new JTextField(50);
-		      JTextField phoneNumField = new JTextField(10);
-		      
-		      JPanel panel = new JPanel();
-		      panel.setPreferredSize(new Dimension(200,250));
-		      panel.setLayout(new GridLayout(10, 1));
-		      panel.add(new JLabel("First Name:"));
-		      panel.add(firstNameField);
-		      panel.add(new JLabel("Last Name:"));
-		      panel.add(lastNameField);
-		      panel.add(new JLabel("Address:"));
-		      panel.add(addressField);
-		      panel.add(new JLabel("Phone Number:"));
-		      panel.add(phoneNumField);
-
-		      int result = JOptionPane.showConfirmDialog(null, panel,"Create new Record", JOptionPane.OK_CANCEL_OPTION);
-		      
-		      /* click OK and go */
-		      if (result == JOptionPane.OK_OPTION) {
-		    	  
-		      /* ***************************************************************************************** */  	  
-		    	  if (!firstNameField.getText().equals("") && !lastNameField.getText().equals("") && !addressField.getText().equals("") && !phoneNumField.getText().equals("")) {
-						
-		    		  	String firstName = firstNameField.getText();
-					  	String lastName = lastNameField.getText();
-					  	String address = addressField.getText();
-					  	String phoneNum = phoneNumField.getText();
-		    		  
-						Connection connection = null;
-						Statement statement = null;
-
-						try {
-							connection = DriverManager.getConnection( DATABASE_URL, UserName_SQL, Password_SQL );
-							statement = connection.createStatement();
-							statement.executeUpdate("INSERT INTO customer (firstName, lastName, address, phoneNumber)" + " VALUES " + "('" + firstName + "','" + lastName + "','" + address + "','" + phoneNum + "')");
-						}//end try
-							
-						catch(SQLException sqlException) {
-							sqlException.printStackTrace();
-						}//catch
-							
-						finally {
-							try {
-								statement.close();
-								connection.close();
-							}//end try
-								
-							catch ( Exception exception ) {
-								exception.printStackTrace();
-							}//end catch
-							
-						}//end finally		
-						
-						JOptionPane.showMessageDialog(null,"Added to Database");
-					}//end if
-
-		      }//end outer if
+		   AddCustomerForm customerForm = new AddCustomerForm("Customer Form");
+			customerForm.setSize(275, 350);
+			customerForm.setLocation(400, 300);
+			customerForm.setLocationRelativeTo(null);
+			customerForm.setVisible(true);
 		}//end actionPerformed
 	}//end addActionListener
    
