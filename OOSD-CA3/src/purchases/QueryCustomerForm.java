@@ -61,6 +61,7 @@ public class QueryCustomerForm {
 	   JButton deleteButton = new JButton("Delete");
 	   JButton RecentPurchasesButton = new JButton("Recent Purchases");
 	   
+	   
 	   addButtonHandler addHandler = new addButtonHandler();
 	   addButton.addActionListener(addHandler);
 	   
