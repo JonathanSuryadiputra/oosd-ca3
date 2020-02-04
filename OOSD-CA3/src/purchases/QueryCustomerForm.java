@@ -25,6 +25,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension; 
 import javax.swing.border.Border;
@@ -192,7 +193,7 @@ public class QueryCustomerForm {
 	   @Override
 	   public void actionPerformed(ActionEvent e) {
 		   AddCustomerForm customerForm = new AddCustomerForm("Customer Form");
-			customerForm.setSize(275, 350);
+			customerForm.setSize(300, 400);
 			customerForm.setLocation(400, 300);
 			customerForm.setLocationRelativeTo(null);
 			customerForm.setVisible(true);
@@ -243,81 +244,136 @@ public class QueryCustomerForm {
    
    /* -----------------------------------------------------------update Button----------------------------------------------------------*/
    private class updateButtonHandler implements ActionListener {
+	 //JFrame class
+	   class UpdateCustomerForm extends JFrame {
+			
+			static final String DATABASE_URL = "jdbc:mysql://localhost/purchases";
+			static final String UserName_SQL = "root";
+			static final String Password_SQL = "password";
+			
+			JTextField firstNameField;
+			JTextField lastNameField;
+			JTextField addressField;
+			JTextField phoneNumField;
+			JButton save;
+			JPanel form;
+			JPanel button;
+			Border padding1;
+			Border padding2;
+			
+			int selectedRow = jtable.getSelectedRow();
+			String customerId = model.getValueAt(selectedRow,0).toString();
+			String firstName = model.getValueAt(selectedRow,1).toString();
+			String lastName = model.getValueAt(selectedRow,2).toString();
+			String address = model.getValueAt(selectedRow,3).toString();
+			String phoneNum = model.getValueAt(selectedRow,4).toString();
+				
+			
+			//Constructor
+			public UpdateCustomerForm() {
+				super("Update Customer");
+				
+				getContentPane().setLayout(new BorderLayout());
+				
+				form = new JPanel();
+				padding1 = BorderFactory.createEmptyBorder(10, 30, 10, 30);
+				form.setBorder(padding1);
+				
+				form.setLayout(new GridLayout(8, 1));
+				
+				form.add(new JLabel("First Name"));
+				firstNameField = new JTextField();
+				firstNameField.setText(firstName);
+				form.add(firstNameField);
+				
+				form.add(new JLabel("Last Name"));
+				lastNameField = new JTextField();
+				lastNameField.setText(lastName);
+				form.add(lastNameField);
+				
+				form.add(new JLabel("Address"));
+				addressField = new JTextField();
+				addressField.setText(address);
+				form.add(addressField);
+				
+				form.add(new JLabel("Phone Number"));
+				phoneNumField = new JTextField();
+				phoneNumField.setText(phoneNum);
+				form.add(phoneNumField);
+				
+				button = new JPanel();
+				button.setLayout(new GridLayout(1, 1));
+				save = new JButton("Save");
+				save.addActionListener(new ActionListener() {
+					String newFirstName;
+					String newLastName;
+					String newAddress;
+					String newPhoneNum;
+					
+					Connection connection = null;
+					Statement statement = null;
+
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						// TODO Auto-generated method stub
+						newFirstName = firstNameField.getText();
+						newLastName = lastNameField.getText();
+						newAddress = addressField.getText();
+						newPhoneNum = phoneNumField.getText();
+						
+						if (newFirstName.equalsIgnoreCase(firstName) && newLastName.equalsIgnoreCase(lastName) && newAddress.equalsIgnoreCase(address) && newPhoneNum.equalsIgnoreCase(phoneNum)) {
+							JOptionPane.showMessageDialog(UpdateCustomerForm.this, String.format("No changes were made", event.getActionCommand()));
+						}//end if
+						
+						else {
+							try {
+								// establish connection to database
+								connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
+									
+								// create Statement for updating database
+								statement = connection.createStatement();
+								statement.executeUpdate("UPDATE Customer SET firstName = '" + newFirstName + "', lastName = '" + newLastName + "', address = '" + newAddress + "', phoneNumber = '" + newPhoneNum + "' WHERE customerId = '" + customerId + "' ");
+							}
+									
+							catch(SQLException sqlException ) {
+								sqlException . printStackTrace () ;
+							}
+									
+							finally {
+								try {
+									statement. close () ;
+									connection. close () ;
+								}
+											
+								catch ( Exception exception ) {
+										exception . printStackTrace () ;
+								}
+							}
+							JOptionPane.showMessageDialog(UpdateCustomerForm.this, String.format("Record Updated", event.getActionCommand()));
+						}//end else
+					}
+				});
+				padding2 = BorderFactory.createEmptyBorder(10, 50, 25, 50);
+				button.setBorder(padding2);
+				button.add(save);
+				
+				add(form, BorderLayout.CENTER);
+				add(button, BorderLayout.SOUTH);
+				
+			} //end constructor
+
+		} //end update customer form class
+	   
 		public void actionPerformed(ActionEvent e) {
 			if(jtable.getSelectedRow() != -1) {
-				JTextField firstNameField = new JTextField(10);
-				JTextField lastNameField = new JTextField(10);
-				JTextField addressField = new JTextField(50);
-				JTextField phoneNumField = new JTextField(10);
-				
-				int selectedRow = jtable.getSelectedRow();
-				
-				String customerId = model.getValueAt(selectedRow,0).toString();
-				String firstName = model.getValueAt(selectedRow,1).toString();
-				String lastName = model.getValueAt(selectedRow,2).toString();
-				String address = model.getValueAt(selectedRow,3).toString();
-				String phoneNum = model.getValueAt(selectedRow,4).toString();
-				
-				firstNameField.setText(firstName);
-				lastNameField.setText(lastName);
-				addressField.setText(address);
-				phoneNumField.setText(phoneNum);
-				
-			    JPanel panel = new JPanel();
-			    panel.setPreferredSize(new Dimension(200,250));
-			    panel.setLayout(new GridLayout(10, 1));
-			    panel.add(new JLabel("First Name:"));
-			    panel.add(firstNameField);
-			      
-			    panel.add(new JLabel("Last Name:"));
-			    panel.add(lastNameField);
-			    panel.add(new JLabel("Address:"));
-			    panel.add(addressField);
-			    panel.add(new JLabel("Phone Number:"));
-			    panel.add(phoneNumField);
-			    
-			    int result = JOptionPane.showConfirmDialog(null, panel,"Update Customer Record", JOptionPane.OK_CANCEL_OPTION);
-			      if (result == JOptionPane.OK_OPTION) {
-			    	  if (true) {
-			    		 
-			    		  String newFirstName = firstNameField.getText();
-			    		  String newLastName = lastNameField.getText();
-			    		  String newAddress = addressField.getText();
-			    		  String newPhoneNum = phoneNumField.getText();
-			    		  
-			    		  Connection connection = null;
-			    		  Statement statement = null;
-			    		  
-			    		try {
-			    			connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
-			  				statement = connection.createStatement();
-			  				statement.executeUpdate("UPDATE customer SET firstName = '" + newFirstName + "', lastName = '" + newLastName + "', address = '" + newAddress + "', phoneNumber = '" + newPhoneNum + "' WHERE customerId = '" + customerId + "'");
-			  			}//end try
-			    		  
-			    		catch(SQLException sqlException ) {
-			    			sqlException . printStackTrace () ;
-			  			}//end catch
-			  						
-			  			finally {
-			  				try {
-			  					statement. close () ;
-			  					connection. close () ;
-			  				}//end try
-			  								
-			  				catch ( Exception exception ) {
-			  					exception . printStackTrace () ;
-			  				}//end catch
-			  			}//end finally
-			    		JOptionPane.showMessageDialog(null,"Record Updated");
-			    	  }//end if
-			    	  else {
-			    		  JOptionPane.showMessageDialog(null,"All Record is the same as Old one");
-			    	  }//end else
-			      }//end if
-				
+				UpdateCustomerForm customerForm = new UpdateCustomerForm();
+				customerForm.setSize(300, 400);
+				customerForm.setLocation(400, 300);
+				customerForm.setLocationRelativeTo(null);
+				customerForm.setVisible(true);
 			}
 			else {
-				JOptionPane.showMessageDialog(null,"Please select a Record");
+				JOptionPane.showMessageDialog(null,"Please select a record");
 			}
 				
 				

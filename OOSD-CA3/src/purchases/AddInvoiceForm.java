@@ -97,6 +97,8 @@ public class AddInvoiceForm extends JFrame {
 		String InvoiceTime;
 
 		final String DATABASE_URL = "jdbc:mysql://localhost/purchases";
+		final String UserName_SQL = "root";
+		final String Password_SQL = "password";
 
 		Connection connection = null;
 		Statement statement = null;
@@ -112,7 +114,7 @@ public class AddInvoiceForm extends JFrame {
 			try {
 
 				// establish connection to database
-				connection = DriverManager.getConnection(DATABASE_URL, "root", "Lwhzyy520");
+				connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
 
 				// create Statement for querying database
 				statement = connection.createStatement();

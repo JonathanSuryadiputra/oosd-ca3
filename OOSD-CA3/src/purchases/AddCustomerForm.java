@@ -44,30 +44,29 @@ public class AddCustomerForm extends JFrame {
 		
 		getContentPane().setLayout(new BorderLayout());
 		
-		form.setLayout(new GridLayout(10, 1));
+		form.setLayout(new GridLayout(8, 1));
 
-		padding1 = BorderFactory.createEmptyBorder(10, 30, -50, 30);
+		padding1 = BorderFactory.createEmptyBorder(10, 30, 15, 30); //form panel padding
 		form.setBorder(padding1);
 		
 		//Add first name label and text field to frame
-		form.add(new JLabel("First Name: "));
+		form.add(new JLabel("First Name"));
 		form.add(firstNameField);
 		
 		//Add last name label and text field to frame
-		form.add(new JLabel("Last Name: "));
+		form.add(new JLabel("Last Name"));
 		form.add(lastNameField);
 		
 		//Add address label and text field to frame
-		form.add(new JLabel("Address:"));
+		form.add(new JLabel("Address"));
 		form.add(addressField);
 		
 		//Add phone number label and text field to frame
-		form.add(new JLabel("Phone Number:"));
+		form.add(new JLabel("Phone Number"));
 		form.add(phoneNumField);
 		
 		//Add submit button to frame
-		
-		padding2 = BorderFactory.createEmptyBorder(0, 30, 20, 30);
+		padding2 = BorderFactory.createEmptyBorder(0, 0, 20, 0); //button panel padding
 		buttons.setBorder(padding2);
 		buttons.add(submitButton);
 		
@@ -93,9 +92,9 @@ public class AddCustomerForm extends JFrame {
 		String address;
 		String phoneNum;
 		
-		final static String DATABASE_URL = "jdbc:mysql://localhost/purchases";
-		final static String USERNAME = "root";
-		final static String PASSWORD = "password";
+		final String DATABASE_URL = "jdbc:mysql://localhost/purchases";
+		final String UserName_SQL = "root";
+		final String Password_SQL = "password";
 		
 		Connection connection = null;
 		Statement statement = null;
@@ -117,7 +116,7 @@ public class AddCustomerForm extends JFrame {
 				try {
 					
 					// establish connection to database
-					connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD);
+					connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
 						
 					// create Statement for querying database
 					statement = connection.createStatement();

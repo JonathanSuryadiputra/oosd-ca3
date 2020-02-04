@@ -57,7 +57,7 @@ public class AddProductForm extends JFrame {
 			form.add(DescriptionField);
 
 			// Add Price label and text field to frame
-			form.add(new JLabel("   Price (€):"));
+			form.add(new JLabel("   Price (ï¿½):"));
 			form.add(PriceField);
 
 			padding2 = BorderFactory.createEmptyBorder(0, 30, 20, 30);
@@ -87,6 +87,8 @@ public class AddProductForm extends JFrame {
 			String price;
 			
 			final String DATABASE_URL = "jdbc:mysql://localhost/purchases";
+			final String UserName_SQL = "root";
+			final String Password_SQL = "password";
 			
 			Connection connection = null;
 			Statement statement = null;
@@ -108,7 +110,7 @@ public class AddProductForm extends JFrame {
 				try {
 					
 					// establish connection to database
-					connection = DriverManager.getConnection(DATABASE_URL, "root", "password");
+					connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
 						
 					// create Statement for querying database
 					statement = connection.createStatement();
