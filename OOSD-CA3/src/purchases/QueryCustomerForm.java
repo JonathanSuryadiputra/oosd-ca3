@@ -59,6 +59,7 @@ public class QueryCustomerForm {
 	   JButton updateButton = new JButton("Update");
 	   JButton deleteButton = new JButton("Delete");
 	   
+	   
 	   addButtonHandler addHandler = new addButtonHandler();
 	   addButton.addActionListener(addHandler);
 	   updateButtonHandler updateHandler = new updateButtonHandler();
