@@ -2,6 +2,7 @@ package purchases;
 
 import java.sql.Connection;
 
+
 import java.sql.Statement;
 import java.util.Vector;
 import java.sql.DriverManager;
@@ -58,13 +59,21 @@ public class QueryCustomerForm {
 	   JButton addButton = new JButton("Create");
 	   JButton updateButton = new JButton("Update");
 	   JButton deleteButton = new JButton("Delete");
+	   JButton RecentPurchasesButton = new JButton("Recent Purchases");
 	   
 	   addButtonHandler addHandler = new addButtonHandler();
 	   addButton.addActionListener(addHandler);
+	   
 	   updateButtonHandler updateHandler = new updateButtonHandler();
 	   updateButton.addActionListener(updateHandler);
+	   
 	   deleteButtonHandler deleteHandler = new deleteButtonHandler();
 	   deleteButton.addActionListener(deleteHandler);
+	   
+	   RecentPurchasesHandler RecentPurchaseHandler = new RecentPurchasesHandler();
+	   RecentPurchasesButton.addActionListener(RecentPurchaseHandler);
+	   
+	   
 
 	   /* add components */
 	   topPanel.add(topicLabel);
@@ -74,6 +83,8 @@ public class QueryCustomerForm {
 	   bottomPanel.add(updateButton);
 	   bottomPanel.add(new JLabel("                   "));
 	   bottomPanel.add(deleteButton);
+	   bottomPanel.add(new JLabel("                   "));
+	   bottomPanel.add(RecentPurchasesButton);
 	   queryCustomerFormPanel.add(topPanel);
 	   queryCustomerFormPanel.add(panel);
 	   queryCustomerFormPanel.add(bottomPanel);   
@@ -89,14 +100,17 @@ public class QueryCustomerForm {
 	   addButton.setFont(buttonFont);
 	   updateButton.setFont(buttonFont);
 	   deleteButton.setFont(buttonFont);
+	   RecentPurchasesButton.setFont(buttonFont);
 	   
 	   addButton.setBackground(Color.lightGray);
 	   updateButton.setBackground(Color.lightGray);
 	   deleteButton.setBackground(Color.lightGray);
+	   RecentPurchasesButton.setBackground(Color.lightGray);
 	   
 	   addButton.setPreferredSize(buttonSize);
 	   updateButton.setPreferredSize(buttonSize);
-	   deleteButton.setPreferredSize(buttonSize);   
+	   deleteButton.setPreferredSize(buttonSize);  
+	   RecentPurchasesButton.setPreferredSize(buttonSize);
 
 	   jtablePanel.setPreferredSize(new Dimension(1260,500));
 	   jtablePanel.setBorder(formBorder);
@@ -319,10 +333,19 @@ public class QueryCustomerForm {
 			else {
 				JOptionPane.showMessageDialog(null,"Please select a Record");
 			}
-				
-				
-				
 		}//end actionPerformed
 	}//end addActionListener
+
+   /* -----------------------------------------------------------Recent Purchases----------------------------------------------------------*/
+   private class RecentPurchasesHandler implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			   AddCustomerForm customerForm = new AddCustomerForm("Customer Form");
+				customerForm.setSize(275, 350);
+				customerForm.setLocation(400, 300);
+				customerForm.setLocationRelativeTo(null);
+				customerForm.setVisible(true);
+   
+			}//end actionPerformed
+		}//end addActionListener
    
 }// end class

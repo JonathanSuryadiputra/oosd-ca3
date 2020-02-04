@@ -100,7 +100,7 @@ public class AddProductForm extends JFrame {
 				if (productName.isEmpty() || description.isEmpty() || price.isEmpty()) {
 					JOptionPane.showMessageDialog(AddProductForm.this, String.format("One or more empty field(s), will not add to database", event.getActionCommand()));
 				}
-				else if (productName.matches("^[a-zA-Z-'.\\s]+") == false || description.matches("^[a-zA-Z-'.\\s]+") == false || price.matches("^[+0-9,\\s]+") == false) {
+				else if (productName.matches("^[a-zA-Z-'.\\s]+") == false || description.matches("^[a-zA-Z-' .\\s]+") == false || price.matches("^[+0-9,\\s]+") == false) {
 					JOptionPane.showMessageDialog(AddProductForm.this, String.format("One or more invalid input(s), please try again", event.getActionCommand()));
 				}
 				else {
