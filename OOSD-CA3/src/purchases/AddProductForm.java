@@ -30,7 +30,7 @@ public class AddProductForm extends JFrame {
 	private JTextField ProductNameField = new JTextField();
 	private JTextField DescriptionField = new JTextField();
 	private JTextField PriceField = new JTextField();
-	private JButton submitButton = new JButton("Add Customer");
+	private JButton submitButton = new JButton("Add Product");
 	private JButton clearButton = new JButton("Clear Form");
 	JPanel form = new JPanel();
 	JPanel buttons = new JPanel();
@@ -57,7 +57,7 @@ public class AddProductForm extends JFrame {
 			form.add(DescriptionField);
 
 			// Add Price label and text field to frame
-			form.add(new JLabel("   Price (€):"));
+			form.add(new JLabel("   Price (â‚¬):"));
 			form.add(PriceField);
 
 			padding2 = BorderFactory.createEmptyBorder(0, 30, 20, 30);

@@ -111,7 +111,7 @@ public class AddCustomerForm extends JFrame {
 			if (firstName.isEmpty() || lastName.isEmpty() || address.isEmpty() || phoneNum.isEmpty()) {
 				JOptionPane.showMessageDialog(AddCustomerForm.this, String.format("One or more empty field(s), will not add to database", event.getActionCommand()));
 			}
-			else if (firstName.matches("^[a-zA-Z-'.\\s]+") == false || lastName.matches("^[a-zA-Z-'.\\s]+") == false || phoneNum.matches("^[+0-9\\s]+") == false) {
+			else if (firstName.matches("^[a-zA-Z-'.\\s]+") == false || lastName.matches("^[a-zA-Z-'.\\s]+") == false || phoneNum.matches("^[+0-9\\-s]+") == false) {
 				JOptionPane.showMessageDialog(AddCustomerForm.this, String.format("One or more invalid input(s), please try again", event.getActionCommand()));
 			}
 			else {
