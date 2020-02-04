@@ -22,7 +22,8 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 public class AddInvoiceForm extends JFrame {
-
+	
+	// initialize variables
 	JTextField customerIdField = new JTextField();
 	JTextField productIdField = new JTextField();
 	JTextField qtyProductField = new JTextField();
@@ -33,8 +34,6 @@ public class AddInvoiceForm extends JFrame {
 	SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss");
 	Date d = new Date();
 
-
-	
 	JButton submitButton = new JButton("Add Invoice");
 	JButton clearButton = new JButton("Clear Form");
 	JPanel form = new JPanel();
@@ -66,19 +65,21 @@ public class AddInvoiceForm extends JFrame {
 		form.add(new JLabel("qty Product"));
 		form.add(qtyProductField);
 
-
+		// Button padding
 		padding2 = BorderFactory.createEmptyBorder(0, 30, 40, 30);
 		buttons.setBorder(padding2);
 		buttons.setLayout(new GridLayout(1, 2));
 		// Add submit button to frame
 		buttons.add(submitButton);
 
+		// Submit button
 		SubmitButtonHandler submitHandler = new SubmitButtonHandler();
 		submitButton.addActionListener(submitHandler);
 
 		// Add clear button to frame
 		buttons.add(clearButton);
-
+		
+		// Clear Button
 		ClearButtonHandler clearHandler = new ClearButtonHandler();
 		clearButton.addActionListener(clearHandler);
 
@@ -90,12 +91,14 @@ public class AddInvoiceForm extends JFrame {
 	// TextField handler
 	private class SubmitButtonHandler implements ActionListener {
 
+		// Initialize variable
 		String customerId;
 		String productId;
 		String qtyProduct;
 		String InvoiceDate;
 		String InvoiceTime;
 
+		// initialize the databases link
 		final String DATABASE_URL = "jdbc:mysql://localhost/purchases";
 
 		Connection connection = null;
@@ -112,7 +115,7 @@ public class AddInvoiceForm extends JFrame {
 			try {
 
 				// establish connection to database
-				connection = DriverManager.getConnection(DATABASE_URL, "root", "Lwhzyy520");
+				connection = DriverManager.getConnection(DATABASE_URL, "root", "password");
 
 				// create Statement for querying database
 				statement = connection.createStatement();
@@ -145,7 +148,7 @@ public class AddInvoiceForm extends JFrame {
 			}
 
 					
-			
+			// Add data and reset textField
 			JOptionPane.showMessageDialog(AddInvoiceForm.this,
 					String.format("Added to Database", event.getActionCommand()));
 			customerIdField.setText("");
@@ -163,8 +166,8 @@ public class AddInvoiceForm extends JFrame {
 			customerIdField.setText("");
 			productIdField.setText("");
 			qtyProductField.setText("");
-		}
+		} //
 
-	}
+	} // end of Clear Button 
 
 }// end class

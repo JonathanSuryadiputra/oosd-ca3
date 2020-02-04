@@ -25,7 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 public class AddCustomerForm extends JFrame {
-	
+	// initialize variables
 	JTextField firstNameField = new JTextField();
 	JTextField lastNameField = new JTextField();
 	JTextField addressField = new JTextField();
@@ -37,9 +37,9 @@ public class AddCustomerForm extends JFrame {
 	Border padding1;
 	Border padding2;
 	
-	//Constructor
+	// Constructor
 	public AddCustomerForm(String title) {
-		//Set title for frame and choose layout
+		// Set title for frame and choose layout
 		super(title);
 		
 		getContentPane().setLayout(new BorderLayout());
@@ -49,34 +49,35 @@ public class AddCustomerForm extends JFrame {
 		padding1 = BorderFactory.createEmptyBorder(10, 30, -50, 30);
 		form.setBorder(padding1);
 		
-		//Add first name label and text field to frame
+		// Add first name label and text field to frame
 		form.add(new JLabel("First Name: "));
 		form.add(firstNameField);
 		
-		//Add last name label and text field to frame
+		// Add last name label and text field to frame
 		form.add(new JLabel("Last Name: "));
 		form.add(lastNameField);
 		
-		//Add address label and text field to frame
+		// Add address label and text field to frame
 		form.add(new JLabel("Address:"));
 		form.add(addressField);
 		
-		//Add phone number label and text field to frame
+		// Add phone number label and text field to frame
 		form.add(new JLabel("Phone Number:"));
 		form.add(phoneNumField);
 		
-		//Add submit button to frame
-		
+		// Add submit button to frame
 		padding2 = BorderFactory.createEmptyBorder(0, 30, 20, 30);
 		buttons.setBorder(padding2);
 		buttons.add(submitButton);
 		
+		// Submit Button
 		SubmitButtonHandler submitHandler = new SubmitButtonHandler();
 		submitButton.addActionListener(submitHandler);
 		
-		//Add clear button to frame
+		// Add clear button to frame
 		buttons.add(clearButton);
 		
+		// Clear Button
 		ClearButtonHandler clearHandler = new ClearButtonHandler();
 		clearButton.addActionListener(clearHandler);
 		
