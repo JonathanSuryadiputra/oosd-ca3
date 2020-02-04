@@ -44,9 +44,9 @@ public class AddCustomerForm extends JFrame {
 		
 		getContentPane().setLayout(new BorderLayout());
 		
-		form.setLayout(new GridLayout(10, 1));
+		form.setLayout(new GridLayout(11, 1));
 
-		padding1 = BorderFactory.createEmptyBorder(10, 30, -50, 30);
+		padding1 = BorderFactory.createEmptyBorder(10, 30, -40, 30);
 		form.setBorder(padding1);
 		
 		// Add first name label and text field to frame
@@ -66,7 +66,7 @@ public class AddCustomerForm extends JFrame {
 		form.add(phoneNumField);
 		
 		// Add submit button to frame
-		padding2 = BorderFactory.createEmptyBorder(0, 30, 20, 30);
+		padding2 = BorderFactory.createEmptyBorder(0, 30, 40, 30);
 		buttons.setBorder(padding2);
 		buttons.add(submitButton);
 		
