@@ -25,7 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 public class AddCustomerForm extends JFrame {
-	
+	// initialize variables
 	JTextField firstNameField = new JTextField();
 	JTextField lastNameField = new JTextField();
 	JTextField addressField = new JTextField();
@@ -37,9 +37,9 @@ public class AddCustomerForm extends JFrame {
 	Border padding1;
 	Border padding2;
 	
-	//Constructor
+	// Constructor
 	public AddCustomerForm(String title) {
-		//Set title for frame and choose layout
+		// Set title for frame and choose layout
 		super(title);
 		
 		getContentPane().setLayout(new BorderLayout());
@@ -70,12 +70,14 @@ public class AddCustomerForm extends JFrame {
 		buttons.setBorder(padding2);
 		buttons.add(submitButton);
 		
+		// Submit Button
 		SubmitButtonHandler submitHandler = new SubmitButtonHandler();
 		submitButton.addActionListener(submitHandler);
 		
-		//Add clear button to frame
+		// Add clear button to frame
 		buttons.add(clearButton);
 		
+		// Clear Button
 		ClearButtonHandler clearHandler = new ClearButtonHandler();
 		clearButton.addActionListener(clearHandler);
 		
