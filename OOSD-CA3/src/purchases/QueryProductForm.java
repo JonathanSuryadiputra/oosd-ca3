@@ -160,7 +160,8 @@ public class QueryProductForm {
 		   jtable.setForeground(Color.black);
 		   jtable.setRowHeight(30);
 		   jtable.setFont(new Font("Serif",Font.PLAIN,15));	
-		   
+
+		   jtable.repaint();
 	   }  // end try
 	   catch (SQLException sqlException)  {
 		   sqlException.printStackTrace();
@@ -189,6 +190,7 @@ public class QueryProductForm {
 			    productForm.setLocation(400, 300);
 			    productForm.setLocationRelativeTo(null);
 			    productForm.setVisible(true); 
+			    
 		}//end actionPerformed
   }//end addActionListener
    

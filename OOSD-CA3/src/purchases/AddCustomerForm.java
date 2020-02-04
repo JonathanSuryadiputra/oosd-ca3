@@ -50,19 +50,19 @@ public class AddCustomerForm extends JFrame {
 		form.setBorder(padding1);
 		
 		//Add first name label and text field to frame
-		form.add(new JLabel("First Name"));
+		form.add(new JLabel("First Name: "));
 		form.add(firstNameField);
 		
 		//Add last name label and text field to frame
-		form.add(new JLabel("Last Name"));
+		form.add(new JLabel("Last Name: "));
 		form.add(lastNameField);
 		
 		//Add address label and text field to frame
-		form.add(new JLabel("Address"));
+		form.add(new JLabel("Address:"));
 		form.add(addressField);
 		
 		//Add phone number label and text field to frame
-		form.add(new JLabel("Phone Number"));
+		form.add(new JLabel("Phone Number:"));
 		form.add(phoneNumField);
 		
 		//Add submit button to frame
@@ -123,7 +123,6 @@ public class AddCustomerForm extends JFrame {
 					statement = connection.createStatement();
 					
 					// Insert data into database
-					// statement.executeUpdate("INSERT INTO Authors (FirstName, LastName)" + "VALUES" + "('" + firstname + "','" + lastname + "')");
 					PreparedStatement pstat = connection.prepareStatement("INSERT INTO Customer (firstName, lastName, address, phoneNumber) VALUES(?,?,?,?)");
 					pstat.setString(1, firstName);
 					pstat.setString(2, lastName);

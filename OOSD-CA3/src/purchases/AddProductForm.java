@@ -49,15 +49,15 @@ public class AddProductForm extends JFrame {
 			form.setBorder(padding1);
 			
 			// Add Product Name label and text field to frame
-			form.add(new JLabel("   Product Name"));
+			form.add(new JLabel("   Product Name:"));
 			form.add(ProductNameField);
 
 			// Add Description label and text field to frame
-			form.add(new JLabel("   Decription"));
+			form.add(new JLabel("   Decription:"));
 			form.add(DescriptionField);
 
 			// Add Price label and text field to frame
-			form.add(new JLabel("   Price"));
+			form.add(new JLabel("   Price (€):"));
 			form.add(PriceField);
 
 			padding2 = BorderFactory.createEmptyBorder(0, 30, 20, 30);
@@ -97,6 +97,14 @@ public class AddProductForm extends JFrame {
 				description = DescriptionField.getText();
 				price = PriceField.getText();
 				
+				if (productName.isEmpty() || description.isEmpty() || price.isEmpty()) {
+					JOptionPane.showMessageDialog(AddProductForm.this, String.format("One or more empty field(s), will not add to database", event.getActionCommand()));
+				}
+				else if (productName.matches("^[a-zA-Z-'.\\s]+") == false || description.matches("^[a-zA-Z-'.\\s]+") == false || price.matches("^[+0-9,\\s]+") == false) {
+					JOptionPane.showMessageDialog(AddProductForm.this, String.format("One or more invalid input(s), please try again", event.getActionCommand()));
+				}
+				else {
+				
 				try {
 					
 					// establish connection to database
@@ -135,6 +143,8 @@ public class AddProductForm extends JFrame {
 				DescriptionField.setText("");
 				PriceField.setText("");
 			}
+			}
+			
 			
 		}
 		// clear button handler
