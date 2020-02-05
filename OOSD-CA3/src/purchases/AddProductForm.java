@@ -49,15 +49,15 @@ public class AddProductForm extends JFrame {
 			form.setBorder(padding1);
 			
 			// Add Product Name label and text field to frame
-			form.add(new JLabel("   Product Name:"));
+			form.add(new JLabel("Product Name"));
 			form.add(ProductNameField);
 
 			// Add Description label and text field to frame
-			form.add(new JLabel("   Decription:"));
+			form.add(new JLabel("Decription"));
 			form.add(DescriptionField);
 
 			// Add Price label and text field to frame
-			form.add(new JLabel("   Price "+"\u20ac"));
+			form.add(new JLabel("Price " + "\u20ac"));
 			form.add(PriceField);
 
 			padding2 = BorderFactory.createEmptyBorder(0, 30, 20, 30);

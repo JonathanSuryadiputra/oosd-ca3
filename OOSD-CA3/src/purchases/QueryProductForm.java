@@ -24,6 +24,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension; 
 import javax.swing.border.Border;
@@ -197,73 +198,103 @@ public class QueryProductForm {
    /* -----------------------------------------------------------update Button----------------------------------------------------------*/
    
    private class updateButtonHandler implements ActionListener {
+	   class UpdateProductForm extends JFrame {
+		   JTextField productNameField = new JTextField(10);
+		   JTextField descriptionField = new JTextField(10);
+		   JTextField priceField = new JTextField(10);
+		   JButton save = new JButton("Save");
+		   JPanel form = new JPanel();
+		   JPanel buttonPanel = new JPanel();
+		   Border padding1;
+		   Border padding2;
+		   
+		   int selectedRow = jtable.getSelectedRow();
+			
+		   String productId = model.getValueAt(selectedRow,0).toString();
+		   String productName = model.getValueAt(selectedRow,1).toString();
+		   String description = model.getValueAt(selectedRow,2).toString();
+		   String price = model.getValueAt(selectedRow,3).toString();
+			
+		   public UpdateProductForm() {
+			   super("Update Product");
+			   
+			   getContentPane().setLayout(new BorderLayout());
+			   
+			   productNameField.setText(productName);
+			   descriptionField.setText(description);
+			   priceField.setText(price);
+			   
+			   padding1 = BorderFactory.createEmptyBorder(10, 30, 15, 30); //padding for main form panel
+			   form.setBorder(padding1);
+			   form.setLayout(new GridLayout(6, 1));
+			   form.add(new JLabel("Product Name"));
+			   form.add(productNameField);
+			   form.add(new JLabel("Description"));
+			   form.add(descriptionField);
+			   form.add(new JLabel("Price " + "\u20ac"));
+			   form.add(priceField);
+			   
+			   buttonPanel.setLayout(new GridLayout(1, 1));
+			   save.addActionListener(new ActionListener() {
+				   String newProductName;
+				   String newDescription;
+				   String newPrice;
+		    	
+				   Connection connection = null;
+				   Statement statement = null;
+				   
+				   @Override
+				   public void actionPerformed(ActionEvent event) {
+					   newProductName = productNameField.getText();
+					   newDescription = descriptionField.getText();
+					   newPrice = priceField.getText();
+					   
+					   if (newProductName.equalsIgnoreCase(productName) && newDescription.equalsIgnoreCase(description) && newPrice.equalsIgnoreCase(price)) {
+						   JOptionPane.showMessageDialog(UpdateProductForm.this, String.format("No changes were made", event.getActionCommand()));
+					   }
+					   else {
+						   try {
+				    			connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
+				  				statement = connection.createStatement();
+				  				statement.executeUpdate("UPDATE product SET productName = '" + newProductName + "', description = '" + newDescription + "', price = '" + newPrice + "' WHERE productId = '" + productId + "'");
+				  			}//end try
+				    		  
+				    		catch(SQLException sqlException ) {
+				    			sqlException . printStackTrace () ;
+				  			}//end catch
+				  						
+				  			finally {
+				  				try {
+				  					statement. close () ;
+				  					connection. close () ;
+				  				}//end try
+				  								
+				  				catch ( Exception exception ) {
+				  					exception . printStackTrace () ;
+				  				}//end catch
+				  			}//end finally
+						   JOptionPane.showMessageDialog(UpdateProductForm.this, String.format("Record Updated", event.getActionCommand()));
+					   }
+				   }
+				   
+			   });
+			   padding2 = BorderFactory.createEmptyBorder(20, 40, 20, 40); // padding for button panel
+			   buttonPanel.setBorder(padding2);
+			   buttonPanel.add(save);
+			   
+			   add(form, BorderLayout.CENTER);
+			   add(buttonPanel, BorderLayout.SOUTH);
+			   
+			   
+		   }
+	   }
 		public void actionPerformed(ActionEvent e) {
 			if(jtable.getSelectedRow() != -1) {
-				JTextField productNameField = new JTextField(10);
-				JTextField descriptionField = new JTextField(10);
-				JTextField priceField = new JTextField(10);
-				
-				int selectedRow = jtable.getSelectedRow();
-				
-				String productId = model.getValueAt(selectedRow,0).toString();
-				String productName = model.getValueAt(selectedRow,1).toString();
-				String description = model.getValueAt(selectedRow,2).toString();
-				String price = model.getValueAt(selectedRow,3).toString();
-				
-				productNameField.setText(productName);
-				descriptionField.setText(description);
-				priceField.setText(price);
-				
-			    JPanel panel = new JPanel();
-			    panel.setPreferredSize(new Dimension(200,250));
-			    panel.setLayout(new GridLayout(10, 1));
-			    panel.add(new JLabel("product Name:"));
-			    panel.add(productNameField);
-			    panel.add(new JLabel("Description:"));
-			    panel.add(descriptionField);
-			    panel.add(new JLabel("Price:"));
-			    panel.add(priceField);
-
-			    
-			    int result = JOptionPane.showConfirmDialog(null, panel,"Update Customer Record", JOptionPane.OK_CANCEL_OPTION);
-			      if (result == JOptionPane.OK_OPTION) {
-			    	  //Validation
-			    	  if (true) {
-			    		 
-			    		  String newproductName = productNameField.getText();
-			    		  String newdescription = descriptionField.getText();
-			    		  String newPrice = priceField.getText();
-			    		  
-			    		  Connection connection = null;
-			    		  Statement statement = null;
-			    		  
-			    		try {
-			    			connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
-			  				statement = connection.createStatement();
-			  				statement.executeUpdate("UPDATE product SET productName = '" + newproductName + "', description = '" + newdescription + "', price = '" + newPrice + "' WHERE productId = '" + productId + "'");
-			  			}//end try
-			    		  
-			    		catch(SQLException sqlException ) {
-			    			sqlException . printStackTrace () ;
-			  			}//end catch
-			  						
-			  			finally {
-			  				try {
-			  					statement. close () ;
-			  					connection. close () ;
-			  				}//end try
-			  								
-			  				catch ( Exception exception ) {
-			  					exception . printStackTrace () ;
-			  				}//end catch
-			  			}//end finally
-			    		JOptionPane.showMessageDialog(null,"Record Updated");
-			    	  }//end if
-			    	  else {
-			    		  JOptionPane.showMessageDialog(null,"All Record is the same as Old one");
-			    	  }//end else
-			      }//end if
-				
+				UpdateProductForm productForm = new UpdateProductForm();
+			    productForm.setSize(275, 350);
+			    productForm.setLocation(250, 250);
+			    productForm.setLocationRelativeTo(null);
+			    productForm.setVisible(true); 
 			}
 			else {
 				JOptionPane.showMessageDialog(null,"Please select a Record");

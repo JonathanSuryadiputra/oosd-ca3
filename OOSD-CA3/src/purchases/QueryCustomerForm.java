@@ -31,8 +31,6 @@ import java.awt.Dimension;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
-import purchases.AddCustomerForm;
-
 public class QueryCustomerForm {
 
 	private JPanel queryCustomerFormPanel = new JPanel();
