@@ -185,7 +185,7 @@ public class QueryProductForm {
 	   
 	   	@Override
 		public void actionPerformed(ActionEvent e) {
-			    AddProductForm productForm = new AddProductForm("Customer Form");
+			    AddProductForm productForm = new AddProductForm("Product Form");
 			    productForm.setSize(275, 350);
 			    productForm.setLocation(400, 300);
 			    productForm.setLocationRelativeTo(null);

@@ -30,7 +30,7 @@ public class AddProductForm extends JFrame {
 	private JTextField ProductNameField = new JTextField();
 	private JTextField DescriptionField = new JTextField();
 	private JTextField PriceField = new JTextField();
-	private JButton submitButton = new JButton("Add Customer");
+	private JButton submitButton = new JButton("Add Product");
 	private JButton clearButton = new JButton("Clear Form");
 	JPanel form = new JPanel();
 	JPanel buttons = new JPanel();
@@ -57,7 +57,7 @@ public class AddProductForm extends JFrame {
 			form.add(DescriptionField);
 
 			// Add Price label and text field to frame
-			form.add(new JLabel("   Price (�):"));
+			form.add(new JLabel("   Price "+"\u20ac"));
 			form.add(PriceField);
 
 			padding2 = BorderFactory.createEmptyBorder(0, 30, 20, 30);
@@ -102,7 +102,7 @@ public class AddProductForm extends JFrame {
 				if (productName.isEmpty() || description.isEmpty() || price.isEmpty()) {
 					JOptionPane.showMessageDialog(AddProductForm.this, String.format("One or more empty field(s), will not add to database", event.getActionCommand()));
 				}
-				else if (productName.matches("^[a-zA-Z-'.\\s]+") == false || description.matches("^[a-zA-Z-'.\\s]+") == false || price.matches("^[+0-9,\\s]+") == false) {
+				else if (productName.matches("^[a-zA-Z-'.\\s]+") == false || description.matches("^[a-zA-Z-' .\\s]+") == false || price.matches("^[+0-9,\\s]+") == false) {
 					JOptionPane.showMessageDialog(AddProductForm.this, String.format("One or more invalid input(s), please try again", event.getActionCommand()));
 				}
 				else {

@@ -1,6 +1,7 @@
 package purchases;
 
 import java.awt.BorderLayout;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -23,7 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
-
+import purchases.QueryCustomerForm;
 public class AddCustomerForm extends JFrame {
 	// initialize variables
 	JTextField firstNameField = new JTextField();
@@ -44,9 +45,8 @@ public class AddCustomerForm extends JFrame {
 		
 		getContentPane().setLayout(new BorderLayout());
 		
-		form.setLayout(new GridLayout(8, 1));
-
-		padding1 = BorderFactory.createEmptyBorder(10, 30, 15, 30); //form panel padding
+		form.setLayout(new GridLayout(11, 1));
+		padding1 = BorderFactory.createEmptyBorder(10, 30, -40, 30); //form panel padding
 		form.setBorder(padding1);
 		
 		//Add first name label and text field to frame
@@ -111,7 +111,7 @@ public class AddCustomerForm extends JFrame {
 			if (firstName.isEmpty() || lastName.isEmpty() || address.isEmpty() || phoneNum.isEmpty()) {
 				JOptionPane.showMessageDialog(AddCustomerForm.this, String.format("One or more empty field(s), will not add to database", event.getActionCommand()));
 			}
-			else if (firstName.matches("^[a-zA-Z-'.\\s]+") == false || lastName.matches("^[a-zA-Z-'.\\s]+") == false || phoneNum.matches("^[+0-9\\s]+") == false) {
+			else if (firstName.matches("^[a-zA-Z-'.\\s]+") == false || lastName.matches("^[a-zA-Z-'.\\s]+") == false || phoneNum.matches("^[+0-9\\-s]+") == false) {
 				JOptionPane.showMessageDialog(AddCustomerForm.this, String.format("One or more invalid input(s), please try again", event.getActionCommand()));
 			}
 			else {
