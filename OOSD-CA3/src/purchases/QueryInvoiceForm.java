@@ -412,8 +412,8 @@ public class QueryInvoiceForm {
 			   form.add(new JLabel("Customer Name: " + getCustomerName() + ""));
 			   form.add(new JLabel("Product ID: " + productId + ""));
 			   form.add(new JLabel("Product Name: " + getProductName() + ""));
-			   form.add(new JLabel("Product Quantity"));
 			   
+			   form.add(new JLabel("Product Quantity"));
 			   qtyProductField = new JTextField();
 			   qtyProductField.setText(qtyProduct);
 			   form.add(qtyProductField);
