@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,6 +23,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension; 
 import javax.swing.border.Border;
@@ -29,7 +31,6 @@ import javax.swing.table.DefaultTableModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import purchases.AddCustomerForm;
 
 public class QueryInvoiceForm {
 	
@@ -224,7 +225,7 @@ public class QueryInvoiceForm {
 				int numberOfColumns = productMetaData.getColumnCount();
 				while(productResultSet.next() ) {
 					for ( int i = 1; i <= numberOfColumns; i=i+3 )
-						productSelectBox.addItem("ID (" + productResultSet.getObject(i) + ")   " + productResultSet.getObject(i+1) + " - €" + productResultSet.getObject(i+2));
+						productSelectBox.addItem("ID (" + productResultSet.getObject(i) + ")   " + productResultSet.getObject(i+1) + " - ï¿½" + productResultSet.getObject(i+2));
 				}//end while
 			}//end try
 				
@@ -307,19 +308,27 @@ public class QueryInvoiceForm {
    
    /* -----------------------------------------------------------update Button----------------------------------------------------------*/
    private class updateButtonHandler implements ActionListener {
-	   @Override
-		public void actionPerformed(ActionEvent e) {
-		   if(jtable.getSelectedRow() != -1) {
-			   
-			   int selectedRowIndex = jtable.getSelectedRow();
-			   String customerId = model.getValueAt(selectedRowIndex,0).toString();
-			   String productId = model.getValueAt(selectedRowIndex,1).toString();
-			   String qtyProduct = model.getValueAt(selectedRowIndex,2).toString();
-			   String invoiceDate = model.getValueAt(selectedRowIndex,3).toString();
-			   String invoiceTime = model.getValueAt(selectedRowIndex,4).toString();
-			   String firstName = new String();
-			   String lastName = new String();
-			   String productName = new String();
+	   class UpdateInvoiceForm extends JFrame {
+		   
+		   int selectedRowIndex = jtable.getSelectedRow();
+		   
+		   String customerId = model.getValueAt(selectedRowIndex,0).toString();
+		   String productId = model.getValueAt(selectedRowIndex,1).toString();
+		   String qtyProduct = model.getValueAt(selectedRowIndex,2).toString();
+		   String invoiceDate = model.getValueAt(selectedRowIndex,3).toString();
+		   String invoiceTime = model.getValueAt(selectedRowIndex,4).toString();
+		   
+		   JTextField qtyProductField;
+		   JPanel form;
+		   JPanel buttonPanel;
+		   JButton save;
+		   Border padding1;
+		   Border padding2;
+		   
+		   public String getCustomerName() {
+			   String firstName = "";
+			   String lastName = "";
+			   String customerFullName = "";
 			   
 			   /*    looking for customer firstName & lastName by giving customerId */
 			   Connection connection = null;
@@ -350,11 +359,17 @@ public class QueryInvoiceForm {
 					}//end catch
 				}//end finally
 			   
-			   String customerFullName = firstName + " " + lastName;
-			   	
+			   customerFullName = firstName + " " + lastName;
+			   
+			   return customerFullName;
+		   }
+		   
+		   public String getProductName() {
+			   String productName = "";
+			   
 			   /* looking for productName by giving productId */
-			   connection = null;
-			   statement = null;
+			   Connection connection = null;
+			   Statement statement = null;
 			   
 			   try{
 					connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
@@ -380,43 +395,57 @@ public class QueryInvoiceForm {
 					}//end catch
 				}//end finally
 			   
-			   JTextField qtyProductField = new JTextField();
+			   return productName;
+		   }
+		   
+		   //Constructor
+		   public UpdateInvoiceForm() {
+			   super("Update Invoice");
+			   
+			   getContentPane().setLayout(new BorderLayout());
+
+			   form = new JPanel();
+			   form.setLayout(new GridLayout(7, 1));
+			   
+			   form.add(new JLabel("Date & Time: "+ invoiceDate + " " + invoiceTime + ""));
+			   form.add(new JLabel("Customer ID: " + customerId + ""));
+			   form.add(new JLabel("Customer Name: " + getCustomerName() + ""));
+			   form.add(new JLabel("Product ID: " + productId + ""));
+			   form.add(new JLabel("Product Name: " + getProductName() + ""));
+			   form.add(new JLabel("Product Quantity"));
+			   
+			   qtyProductField = new JTextField();
 			   qtyProductField.setText(qtyProduct);
-
-			   JPanel panel = new JPanel();
-			   panel.setPreferredSize(new Dimension(200,220));
-			   panel.setLayout(new GridLayout(8, 1));
-			   panel.add(new JLabel("Date & Time: "+ invoiceDate + " " + invoiceTime));
-			   panel.add(new JLabel("Customer ID: " + customerId));
-			   panel.add(new JLabel("Customer Name: " + customerFullName));
-			   panel.add(new JLabel("Product ID: " + productId));
-			   panel.add(new JLabel("Product Name: " + productName));
-			   panel.add(new JLabel("                                      "));
-			   panel.add(new JLabel("Product Quantity"));
-			   panel.add(qtyProductField);
-			  
-			   int result = JOptionPane.showConfirmDialog(null, panel,"Update Record", JOptionPane.OK_CANCEL_OPTION);
-			   if (result == JOptionPane.OK_OPTION) {
-				   
-				   int newQtyProduct = Integer.parseInt(qtyProductField.getText());
-				   
-				   if (newQtyProduct < 1 || newQtyProduct > 99) {
-			    		  JOptionPane.showMessageDialog(null,"Invalid Quantity input");
-			    	  }//end if
-				   
-				   else {
-
-					   try{
-		  					connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
+			   form.add(qtyProductField);
+			   
+			   padding1 = BorderFactory.createEmptyBorder(10, 30, 10, 30); // padding for main form panel
+			   form.setBorder(padding1);
+			   
+			   save = new JButton("Save");
+			   save.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					int newQtyProduct = Integer.parseInt(qtyProductField.getText());
+					
+					Connection connection = null;
+					Statement statement = null;
+					   
+					if (newQtyProduct < 1 || newQtyProduct > 99) {
+						JOptionPane.showMessageDialog(null,"Invalid Quantity input");
+					}// end if
+					else {
+						try {
+							connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
 		  					statement = connection.createStatement();
 		  					statement.executeUpdate("UPDATE invoice SET qtyProduct =" + newQtyProduct + " WHERE (customerId,productId,invoiceDate,invoiceTime) = (" + customerId + "," + productId + ", '" + invoiceDate + "', '" + invoiceTime + "')");
-		  				 }//end try
-		  				 
-		  				catch(SQLException sqlException) {
+						}//end try
+						
+						catch(SQLException sqlException) {
 		  					sqlException.printStackTrace();
 		  				}//end catch
-		  					
-		  				finally {
+						
+						finally {
 		  					try {
 		  						statement.close();
 		  						connection.close();
@@ -425,14 +454,39 @@ public class QueryInvoiceForm {
 		  					catch ( Exception exception ) {
 		  						exception.printStackTrace();
 		  					}//end catch
-		  				}//end finally		   
-		  			  JOptionPane.showMessageDialog(null,"Record Updated");	
-				   }//end else
-		   
-			   }//end OK if
-			   }//end outer if
-		}//end actionPerformed
-   }//end updateActionListener
+		  				}//end finally
+						
+						JOptionPane.showMessageDialog(null,"Record Updated");
+						}
+			  		}
+			   });
+			   buttonPanel = new JPanel();
+			   buttonPanel.setLayout(new GridLayout(1, 1));
+			   
+			   buttonPanel.add(save);
+			   padding2 = BorderFactory.createEmptyBorder(0, 40, 10, 40);
+			   buttonPanel.setBorder(padding2);
+			   
+			   add(form, BorderLayout.CENTER);
+			   add(buttonPanel, BorderLayout.SOUTH);
+		   }
+	   }//end UpdateInvoiceForm
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(jtable.getSelectedRow() != -1) {
+			UpdateInvoiceForm invoiceForm = new UpdateInvoiceForm();
+			invoiceForm.setSize(300, 400);
+			invoiceForm.setLocation(400, 300);
+			invoiceForm.setLocationRelativeTo(null);
+			invoiceForm.setVisible(true);
+		}
+		else {
+			JOptionPane.showMessageDialog(null,"Please select a record");
+		}
+	}
+   }
    
    /* -----------------------------------------------------------delete Button----------------------------------------------------------*/
    private class deleteButtonHandler implements ActionListener {
@@ -477,4 +531,4 @@ public class QueryInvoiceForm {
 			}//end else
 		}//end actionPerformed
    }//end deleteActionListener
-}// end class
+}// end QueryCustomerForm class
