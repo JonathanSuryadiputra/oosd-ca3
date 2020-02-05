@@ -28,10 +28,11 @@ public class MainFrame extends JFrame {
 	private JPanel queryCustomerPanel = new JPanel();
 	private JPanel queryProductPanel = new JPanel();
 	private JPanel queryInvoicePanel = new JPanel();
+	private JPanel RecentPurchasePanel = new JPanel();
 	
 	private CardLayout cardlayout = new CardLayout(); 
 	
-	final String[] ComboBoxString = new String[] {"Select Option","Query Customer Table","Query Product table", "Query Invoice table"};
+	final String[] ComboBoxString = new String[] {"Select Option","Query Customer Table","Query Product table", "Query Invoice table","Recent Purchases table"};
 	final JComboBox<String> comboBox = new JComboBox<>(ComboBoxString);
 	
 	public MainFrame() { /* full screen: max-width: 1360, max-height: 841 */
@@ -66,6 +67,7 @@ public class MainFrame extends JFrame {
 		alterPanel.add(queryCustomerPanel,"2");
 		alterPanel.add(queryProductPanel,"3");
 		alterPanel.add(queryInvoicePanel,"4");
+		alterPanel.add(RecentPurchasePanel,"5");
 		
 		/* add Components */
 		topPanel.add(topic);
@@ -106,6 +108,10 @@ public class MainFrame extends JFrame {
 		queryProductPanel = queryProductObj.getJPanel(); 
 		QueryInvoiceForm queryInvoiceObj = new QueryInvoiceForm();
 		queryInvoicePanel = queryInvoiceObj.getJPanel(); 
+		RecentPurchasesForm rp = new RecentPurchasesForm();
+		RecentPurchasePanel = rp.getJPanel();
+		
+		
 	}
 	
 	private class comboBoxHandler implements ActionListener {
@@ -121,6 +127,9 @@ public class MainFrame extends JFrame {
 				break;
 			case "Query Invoice table": 
 				cardlayout.show(alterPanel, "4");	
+				break;	
+			case "Recent Purchases table": 
+				cardlayout.show(alterPanel, "5");	
 				break;	
 			}//end switch
 		}//end actionPerformed
