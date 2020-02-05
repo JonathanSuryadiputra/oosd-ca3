@@ -54,19 +54,11 @@ public class RecentPurchasesForm {
 	   getQuery();
 	   
 	   JLabel topicLabel = new JLabel("           Recently Purchases Table           ");
-	   JButton addButton = new JButton("Create");
-	   JButton updateButton = new JButton("Update");
-	   JButton deleteButton = new JButton("Delete");
 	   
 
 	   /* add components */
 	   topPanel.add(topicLabel);
 	   panel.add(jtablePanel);
-	   bottomPanel.add(addButton);
-	   bottomPanel.add(new JLabel("                   "));
-	   bottomPanel.add(updateButton);
-	   bottomPanel.add(new JLabel("                   "));
-	   bottomPanel.add(deleteButton);
 	   RecentPurchasesFormPanel.add(topPanel);
 	   RecentPurchasesFormPanel.add(panel);
 	   RecentPurchasesFormPanel.add(bottomPanel);   
@@ -79,17 +71,6 @@ public class RecentPurchasesForm {
 	   
 	   topicLabel.setFont(topicFont);
 	   
-	   addButton.setFont(buttonFont);
-	   updateButton.setFont(buttonFont);
-	   deleteButton.setFont(buttonFont);
-	   
-	   addButton.setBackground(Color.lightGray);
-	   updateButton.setBackground(Color.lightGray);
-	   deleteButton.setBackground(Color.lightGray);
-	   
-	   addButton.setPreferredSize(buttonSize);
-	   updateButton.setPreferredSize(buttonSize);
-	   deleteButton.setPreferredSize(buttonSize);   
 
 	   jtablePanel.setPreferredSize(new Dimension(1260,500));
 	   jtablePanel.setBorder(formBorder);
