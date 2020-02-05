@@ -27,9 +27,9 @@ import purchases.AddProductForm;
 
 
 public class AddProductForm extends JFrame {
-	private JTextField ProductNameField = new JTextField();
-	private JTextField DescriptionField = new JTextField();
-	private JTextField PriceField = new JTextField();
+	private JTextField productNameField = new JTextField();
+	private JTextField descriptionField = new JTextField();
+	private JTextField priceField = new JTextField();
 	private JButton submitButton = new JButton("Add Product");
 	private JButton clearButton = new JButton("Clear Form");
 	JPanel form = new JPanel();
@@ -50,15 +50,15 @@ public class AddProductForm extends JFrame {
 			
 			// Add Product Name label and text field to frame
 			form.add(new JLabel("Product Name"));
-			form.add(ProductNameField);
+			form.add(productNameField);
 
 			// Add Description label and text field to frame
 			form.add(new JLabel("Decription"));
-			form.add(DescriptionField);
+			form.add(descriptionField);
 
 			// Add Price label and text field to frame
 			form.add(new JLabel("Price " + "\u20ac"));
-			form.add(PriceField);
+			form.add(priceField);
 
 			padding2 = BorderFactory.createEmptyBorder(0, 30, 20, 30);
 			buttons.setBorder(padding2);
@@ -95,9 +95,9 @@ public class AddProductForm extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				productName = ProductNameField.getText();
-				description = DescriptionField.getText();
-				price = PriceField.getText();
+				productName = productNameField.getText();
+				description = descriptionField.getText();
+				price = priceField.getText();
 				
 				if (productName.isEmpty() || description.isEmpty() || price.isEmpty()) {
 					JOptionPane.showMessageDialog(AddProductForm.this, String.format("One or more empty field(s), will not add to database", event.getActionCommand()));
@@ -141,9 +141,9 @@ public class AddProductForm extends JFrame {
 				}
 				
 				JOptionPane.showMessageDialog(AddProductForm.this, String.format("Added to Database", event.getActionCommand()));
-				ProductNameField.setText("");
-				DescriptionField.setText("");
-				PriceField.setText("");
+				productNameField.setText("");
+				descriptionField.setText("");
+				priceField.setText("");
 			}
 			}
 			
@@ -154,9 +154,9 @@ public class AddProductForm extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent event) {
-					ProductNameField.setText("");
-					DescriptionField.setText("");
-					PriceField.setText("");
+					productNameField.setText("");
+					descriptionField.setText("");
+					priceField.setText("");
 				}
 				
 			}

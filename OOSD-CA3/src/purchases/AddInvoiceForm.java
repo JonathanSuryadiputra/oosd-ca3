@@ -1,6 +1,7 @@
 package purchases;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.GridLayout;
@@ -9,11 +10,14 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,153 +27,196 @@ import javax.swing.border.Border;
 
 public class AddInvoiceForm extends JFrame {
 	
-	// initialize variables
-	JTextField customerIdField = new JTextField();
-	JTextField productIdField = new JTextField();
+	static final String DATABASE_URL = "jdbc:mysql://localhost/purchases";
+	static final String UserName_SQL = "root";
+	static final String Password_SQL = "password";
+	
+	JComboBox customerList;
+	JComboBox productList;
 	JTextField qtyProductField = new JTextField();
-	JTextField invoiceDateField = new JTextField();
-	JTextField invoiceTimeField = new JTextField();
-
-	SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
-	SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss");
-	Date d = new Date();
-
-	JButton submitButton = new JButton("Add Invoice");
+	JButton submitButton = new JButton("Add Record");
 	JButton clearButton = new JButton("Clear Form");
 	JPanel form = new JPanel();
-	JPanel buttons = new JPanel();
+	JPanel button = new JPanel();
 	Border padding1;
 	Border padding2;
-
-	// Constructor
-	public AddInvoiceForm(String title) {
-		// Set title for frame and choose layout
-		super(title);
-
-		getContentPane().setLayout(new BorderLayout());
-
-		form.setLayout(new GridLayout(8, 1));
-
-		padding1 = BorderFactory.createEmptyBorder(10, 30, -20, 30);
-		form.setBorder(padding1);
-
-		// Add Customer Id label and text field to frame
-		form.add(new JLabel("Customer Id"));
-		form.add(customerIdField);
-
-		// Add Product Id label and text field to frame
-		form.add(new JLabel("Product Id"));
-		form.add(productIdField);
-
-		// Add quantity Product label and text field to frame
-		form.add(new JLabel("qty Product"));
-		form.add(qtyProductField);
-
-		// Button padding
-		padding2 = BorderFactory.createEmptyBorder(0, 30, 40, 30);
-		buttons.setBorder(padding2);
-		buttons.setLayout(new GridLayout(1, 2));
-		// Add submit button to frame
-		buttons.add(submitButton);
-
-		// Submit button
-		SubmitButtonHandler submitHandler = new SubmitButtonHandler();
-		submitButton.addActionListener(submitHandler);
-
-		// Add clear button to frame
-		buttons.add(clearButton);
-		
-		// Clear Button
-		ClearButtonHandler clearHandler = new ClearButtonHandler();
-		clearButton.addActionListener(clearHandler);
-
-		add(form, BorderLayout.CENTER);
-		add(buttons, BorderLayout.SOUTH);
-
-	}// end constructor
-
-	// TextField handler
-	private class SubmitButtonHandler implements ActionListener {
-
-		// Initialize variable
-		String customerId;
-		String productId;
-		String qtyProduct;
-		String InvoiceDate;
-		String InvoiceTime;
-
-		// initialize the databases link
-		final String DATABASE_URL = "jdbc:mysql://localhost/purchases";
-		final String UserName_SQL = "root";
-		final String Password_SQL = "password";
-
+	
+	//get customer list for Customer JComboBox
+	public JComboBox getCustomerList() {
+		JComboBox customerSelectBox = new JComboBox();
 		Connection connection = null;
 		Statement statement = null;
-
+		
+		try {
+			connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
+			statement = connection.createStatement();
+			ResultSet customerResultSet = statement.executeQuery("select customerId, firstName, lastName from customer;");
+			ResultSetMetaData customerMetaData = customerResultSet.getMetaData();
+			int numberOfColumns = customerMetaData.getColumnCount();
+			while(customerResultSet.next() ) {
+				for ( int i = 1; i <= numberOfColumns; i=i+3 ) {
+					customerSelectBox.addItem("ID (" + customerResultSet.getObject(i) + ")   " + customerResultSet.getObject(i+1) + " " + customerResultSet.getObject(i+2));
+				}
+			}//end while
+		}//end try
+			
+		catch(SQLException sqlException ) {
+			sqlException . printStackTrace ();
+		}//end catch
+			
+		finally {
+			try{
+				statement. close ();	
+				connection. close ();
+			}//end try
+				
+			catch ( Exception exception ){	
+				exception . printStackTrace ();
+			}//end catch
+		}//end finally
+		
+		return customerSelectBox;
+	}
+	
+	//get Product list for Product JComboBox
+	public JComboBox getProductList() {
+		JComboBox productSelectBox = new JComboBox();
+		
+		Connection connection = null;
+		Statement statement = null;
+		   
+		   
+		try {
+			connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);	
+			statement = connection.createStatement();	
+			ResultSet productResultSet = statement.executeQuery("select productId, productName, price from product;");	
+			ResultSetMetaData productMetaData = productResultSet.getMetaData();	
+			int numberOfColumns = productMetaData.getColumnCount();
+			while(productResultSet.next() ) {	
+				for ( int i = 1; i <= numberOfColumns; i=i+3 )	
+					productSelectBox.addItem("ID (" + productResultSet.getObject(i) + ")   " + productResultSet.getObject(i+1) + " - \u20ac" + productResultSet.getObject(i+2));
+			}//end while
+		}//end try
+				
+			
+		catch(SQLException sqlException ) {	
+			sqlException . printStackTrace ();
+		}//end catch
+				
+			
+		finally {
+			try{		
+				statement. close ();
+				connection. close ();
+			}//end try
+	
+			catch ( Exception exception ){	
+				exception . printStackTrace ();
+			}//end catch
+		}//end finally
+		
+		return productSelectBox;
+	}
+	
+	//Constructor
+	public AddInvoiceForm(String title) {
+		super(title);
+		
+		getContentPane().setLayout(new BorderLayout());
+		
+		form.setLayout(new GridLayout(6, 1));
+		padding1 = BorderFactory.createEmptyBorder(10, 30, 10, 30); //padding for main form panel
+		form.setBorder(padding1);
+		
+		form.add(new JLabel("Customer ID"));
+		customerList = getCustomerList();
+		form.add(customerList); 
+		form.add(new JLabel("Product ID"));
+		productList = getProductList();
+		form.add(productList); 
+		form.add(new JLabel("Quantity"));  
+		form.add(qtyProductField);
+		
+		button.setLayout(new GridLayout(1, 2));
+		padding2 = BorderFactory.createEmptyBorder(0, 10, 20, 10); //padding for button panel
+		button.setBorder(padding2);
+		
+		SubmitButtonHandler submitHandler = new SubmitButtonHandler();
+		submitButton.addActionListener(submitHandler);
+		button.add(submitButton);
+		
+		ClearButtonHandler clearHandler = new ClearButtonHandler();
+		clearButton.addActionListener(clearHandler);
+		button.add(clearButton);
+		
+		add(form, BorderLayout.CENTER);
+		add(button, BorderLayout.SOUTH);
+	}
+	
+	//TextField handler
+	public class SubmitButtonHandler implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent event) {
-			customerId = customerIdField.getText();
-			productId = productIdField.getText();
-			qtyProduct = qtyProductField.getText();
-			InvoiceDate =formatDate.format(d);
-			InvoiceTime =  formatTime.format(d);
-
-			try {
-
-				// establish connection to database
-				connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
-
-				// create Statement for querying database
-				statement = connection.createStatement();
-
-				// Insert data into database
-				PreparedStatement pstat = connection.prepareStatement(
-						"INSERT INTO invoice (customerId, productId, qtyProduct, invoiceDate, invoiceTime)VALUES(?,?,?,?,?)");
-				pstat.setString(1, customerId);
-				pstat.setString(2, productId);
-				pstat.setString(3, qtyProduct);
-				pstat.setString(4, formatDate.format(d));
-				pstat.setString(5, formatTime.format(d));
-				pstat.executeUpdate();
-
+		public void actionPerformed(ActionEvent e) {
+			//get customer value
+			String customerIdstr = customerList.getSelectedItem().toString();
+			customerIdstr = customerIdstr.substring(customerIdstr.indexOf("(")+1,customerIdstr.indexOf(")"));
+			int customerId = Integer.parseInt(customerIdstr);
+			
+			//get product value
+			String productIdstr = productList.getSelectedItem().toString();
+			productIdstr = productIdstr.substring(productIdstr.indexOf("(")+1,productIdstr.indexOf(")"));
+			int productId = Integer.parseInt(productIdstr);
+			
+			//get quantity value
+			int qtyProduct = Integer.parseInt(qtyProductField.getText());
+			
+			if (qtyProduct < 1 || qtyProduct > 99) {
+				JOptionPane.showMessageDialog(null,"Invalid Quantity input");
 			}
-
-			catch (SQLException sqlException) {
-				sqlException.printStackTrace();
-			}
-
-			finally {
+		 	
+			else {
+				
+				SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss");
+				Date d = new Date();
+				
+				Connection connection = null;
+				Statement statement = null;
+					    
 				try {
-					statement.close();
-					connection.close();
+					connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
+					statement = connection.createStatement();
+					statement.executeUpdate("INSERT INTO invoice (customerId, productId, qtyProduct, invoiceDate, invoiceTime)" + " VALUES " + "(" + customerId + "," + productId + "," + qtyProduct + ",'" + formatDate.format(d) + "','" + formatTime.format(d) + "')");
 				}
-
-				catch (Exception exception) {
-					exception.printStackTrace();
+				
+				catch(SQLException sqlException) {
+					sqlException.printStackTrace();
 				}
-			}
-
+							
+						
+				finally {
+					try {		
+						statement.close();		
+						connection.close();
+					}
 					
-			// Add data and reset textField
-			JOptionPane.showMessageDialog(AddInvoiceForm.this,
-					String.format("Added to Database", event.getActionCommand()));
-			customerIdField.setText("");
-			productIdField.setText("");
+					catch ( Exception exception ) {
+						exception.printStackTrace();
+					}
+				}
+				
+				JOptionPane.showMessageDialog(null,"Created New Record");
+			}//end else
+		}
+	}
+	
+	//Clear button handler
+	public class ClearButtonHandler implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			customerList.setSelectedIndex(-1);
+			productList.setSelectedIndex(-1);
 			qtyProductField.setText("");
 		}
-
 	}
-
-	// clear button handler
-	private class ClearButtonHandler implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent event) {
-			customerIdField.setText("");
-			productIdField.setText("");
-			qtyProductField.setText("");
-		} //
-
-	} // end of Clear Button 
-
-}// end class
+}
