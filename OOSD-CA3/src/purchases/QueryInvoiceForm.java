@@ -285,11 +285,11 @@ public class QueryInvoiceForm {
 			   form = new JPanel();
 			   form.setLayout(new GridLayout(7, 1));
 			   
-			   form.add(new JLabel("Date & Time: "+ invoiceDate + " " + invoiceTime + ""));
-			   form.add(new JLabel("Customer ID: " + customerId + ""));
-			   form.add(new JLabel("Customer Name: " + getCustomerName() + ""));
-			   form.add(new JLabel("Product ID: " + productId + ""));
-			   form.add(new JLabel("Product Name: " + getProductName() + ""));
+			   form.add(new JLabel("Date & Time : "+ invoiceDate + " " + invoiceTime + ""));
+			   form.add(new JLabel("Customer ID : " + customerId + ""));
+			   form.add(new JLabel("Customer Name : " + getCustomerName() + ""));
+			   form.add(new JLabel("Product ID : " + productId + ""));
+			   form.add(new JLabel("Product Name : " + getProductName() + ""));
 			   
 			   form.add(new JLabel("Product Quantity"));
 			   qtyProductField = new JTextField();
@@ -310,8 +310,11 @@ public class QueryInvoiceForm {
 					Statement statement = null;
 					   
 					if (newQtyProduct < 1 || newQtyProduct > 99) {
-						JOptionPane.showMessageDialog(null,"Invalid Quantity input");
+						JOptionPane.showMessageDialog(null,"Invalid quantity input");
 					}// end if
+					else if (newQtyProduct == Integer.parseInt(qtyProduct)) {
+						JOptionPane.showMessageDialog(null,"No changes were made");
+					}
 					else {
 						try {
 							connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
