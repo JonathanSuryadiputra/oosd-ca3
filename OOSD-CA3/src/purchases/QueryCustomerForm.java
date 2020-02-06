@@ -67,7 +67,6 @@ public class QueryCustomerForm {
 		JButton updateButton = new JButton("Update");
 		JButton deleteButton = new JButton("Delete");
 		JButton RecentPurchasesButton = new JButton("Recent Purchases");
-		JLabel searchLabel = new JLabel("Query : ");
 
 		addButtonHandler addHandler = new addButtonHandler();
 		addButton.addActionListener(addHandler);
@@ -87,11 +86,12 @@ public class QueryCustomerForm {
 		
 		searchPanel.setLayout(new FlowLayout());
 		searchPanel.setBackground(Color.WHITE);
-		searchPanel.add(searchLabel);
 		
 		searchBarField = new JTextField("Enter query here (Click on the field to clear it, then press Enter to clear query)");
+		searchBarField.setHorizontalAlignment(JTextField.CENTER);
+		searchBarField.setColumns(80);
 		
-		searchBarField.addKeyListener(new KeyListener() {
+		   searchBarField.addKeyListener(new KeyListener() {
 			   String query;
 			   @Override
 			   public void keyTyped(KeyEvent e) {
@@ -119,10 +119,10 @@ public class QueryCustomerForm {
 			   }
 			   
 		   });
-		
-		ClearFieldHandler clickClear = new ClearFieldHandler();
-		searchBarField.addMouseListener(clickClear);
-		searchPanel.add(searchBarField);
+		   
+		   ClearFieldHandler clickClear = new ClearFieldHandler();
+		   searchBarField.addMouseListener(clickClear);
+		   searchPanel.add(searchBarField);
 
 		/* add components */
 		topPanel.add(topicLabel);

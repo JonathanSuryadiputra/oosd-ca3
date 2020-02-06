@@ -18,17 +18,24 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.JScrollPane;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension; 
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public class QueryProductForm {
 	
@@ -43,6 +50,8 @@ public class QueryProductForm {
    private JPanel panel = new JPanel();
    private JPanel bottomPanel = new JPanel();
    private JPanel jtablePanel = new JPanel();
+   private JPanel searchPanel = new JPanel();
+   final JTextField searchBarField;
    
    private JTable jtable;
    private DefaultTableModel model;
@@ -64,6 +73,48 @@ public class QueryProductForm {
 	   deleteButtonHandler deleteHandler = new deleteButtonHandler();
 	   deleteButton.addActionListener(deleteHandler);
 	   
+	 //set up table search bar and sorter
+	   final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
+		jtable.setRowSorter(sorter);
+				
+		searchPanel.setLayout(new FlowLayout());
+		searchPanel.setBackground(Color.WHITE);
+				
+		searchBarField = new JTextField("Enter query here (Click on the field to clear it, then press Enter to clear query)");
+		searchBarField.setHorizontalAlignment(JTextField.CENTER);
+		searchBarField.setColumns(80);
+				
+		searchBarField.addKeyListener(new KeyListener() {
+			String query;  
+			
+			@Override	   
+			public void keyTyped(KeyEvent e) {		   
+				// TODO Auto-generated method stub			   	   
+			}
+					   
+			@Override
+			public void keyPressed(KeyEvent event) {
+				if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+					query = searchBarField.getText();
+					if (query.length() == 0) {
+						sorter.setRowFilter(null); 
+					}
+					else {
+						sorter.setRowFilter(RowFilter.regexFilter(query));   
+					}   
+				}	   
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {	   
+				// TODO Auto-generated method stub	   
+			}  
+		});
+				
+		ClearFieldHandler clickClear = new ClearFieldHandler();	
+		searchBarField.addMouseListener(clickClear);
+		searchPanel.add(searchBarField);
+	   
 	   /* add components */
 	   topPanel.add(topicLabel);
 	   panel.add(jtablePanel);
@@ -73,6 +124,7 @@ public class QueryProductForm {
 	   bottomPanel.add(new JLabel("                   "));
 	   bottomPanel.add(deleteButton);
 	   queryProductFormPanel.add(topPanel);
+	   queryProductFormPanel.add(searchPanel);
 	   queryProductFormPanel.add(panel);
 	   queryProductFormPanel.add(bottomPanel);   
 	   
@@ -345,5 +397,39 @@ public class QueryProductForm {
 			}
 		}//end actionPerformed
    }//end deleteActionListener
+   
+   public class ClearFieldHandler implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent event) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			searchBarField.setText("");
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		   
+	   }
    
 }// end class
