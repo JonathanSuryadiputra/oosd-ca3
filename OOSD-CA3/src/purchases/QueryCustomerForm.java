@@ -19,17 +19,24 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.JScrollPane;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public class QueryCustomerForm {
 
@@ -44,6 +51,8 @@ public class QueryCustomerForm {
 	private JPanel panel = new JPanel();
 	private JPanel bottomPanel = new JPanel();
 	private JPanel jtablePanel = new JPanel();
+	private JPanel searchPanel = new JPanel();
+	final JTextField searchBarField;
 
 	private JTable jtable;
 	private DefaultTableModel model;
@@ -58,6 +67,7 @@ public class QueryCustomerForm {
 		JButton updateButton = new JButton("Update");
 		JButton deleteButton = new JButton("Delete");
 		JButton RecentPurchasesButton = new JButton("Recent Purchases");
+		JLabel searchLabel = new JLabel("Query : ");
 
 		addButtonHandler addHandler = new addButtonHandler();
 		addButton.addActionListener(addHandler);
@@ -70,6 +80,49 @@ public class QueryCustomerForm {
 
 		RecentPurchasesHandler RecentPurchaseHandler = new RecentPurchasesHandler();
 		RecentPurchasesButton.addActionListener(RecentPurchaseHandler);
+		
+		//set up table search bar and sorter
+		final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
+		jtable.setRowSorter(sorter);
+		
+		searchPanel.setLayout(new FlowLayout());
+		searchPanel.setBackground(Color.WHITE);
+		searchPanel.add(searchLabel);
+		
+		searchBarField = new JTextField("Enter query here (Click on the field to clear it, then press Enter to clear query)");
+		
+		searchBarField.addKeyListener(new KeyListener() {
+			   String query;
+			   @Override
+			   public void keyTyped(KeyEvent e) {
+				   // TODO Auto-generated method stub	
+				   
+			   }
+			   
+			   @Override
+			   public void keyPressed(KeyEvent event) {
+				   if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+					   query = searchBarField.getText();
+					   if (query.length() == 0) {
+						   sorter.setRowFilter(null); 
+					   }
+					   else {
+						   sorter.setRowFilter(RowFilter.regexFilter(query));
+					   }
+				   }
+			   }
+			   
+			   @Override
+			   public void keyReleased(KeyEvent e) {
+				   // TODO Auto-generated method stub
+				   
+			   }
+			   
+		   });
+		
+		ClearFieldHandler clickClear = new ClearFieldHandler();
+		searchBarField.addMouseListener(clickClear);
+		searchPanel.add(searchBarField);
 
 		/* add components */
 		topPanel.add(topicLabel);
@@ -82,6 +135,7 @@ public class QueryCustomerForm {
 		bottomPanel.add(new JLabel("                   "));
 		bottomPanel.add(RecentPurchasesButton);
 		queryCustomerFormPanel.add(topPanel);
+		queryCustomerFormPanel.add(searchPanel);
 		queryCustomerFormPanel.add(panel);
 		queryCustomerFormPanel.add(bottomPanel);
 
@@ -165,7 +219,7 @@ public class QueryCustomerForm {
 					return false;
 				}
 			};
-			;
+			
 			jtable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 			jtable.setPreferredScrollableViewportSize(new Dimension(1230, 450));
 			JScrollPane scrollPane = new JScrollPane(jtable);
@@ -279,7 +333,6 @@ public class QueryCustomerForm {
 			String lastName = model.getValueAt(selectedRow,2).toString();
 			String address = model.getValueAt(selectedRow,3).toString();
 			String phoneNum = model.getValueAt(selectedRow,4).toString();
-				
 			
 			//Constructor
 			public UpdateCustomerForm() {
@@ -428,5 +481,39 @@ public class QueryCustomerForm {
 			}
 		}// end actionPerformed
 	}// end addActionListener
+	
+	public class ClearFieldHandler implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent event) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			searchBarField.setText("");
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		   
+	   }
 
 }// end class
