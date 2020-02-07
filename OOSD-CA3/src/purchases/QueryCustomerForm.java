@@ -56,7 +56,7 @@ public class QueryCustomerForm {
 
 	private JTable jtable;
 	private DefaultTableModel model;
-   
+
 	// constructor
 	public QueryCustomerForm() {
 
@@ -76,50 +76,51 @@ public class QueryCustomerForm {
 
 		deleteButtonHandler deleteHandler = new deleteButtonHandler();
 		deleteButton.addActionListener(deleteHandler);
-		
-		//set up table search bar and sorter
+
+		// set up table search bar and sorter
 		final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
 		jtable.setRowSorter(sorter);
-		
+
 		searchPanel.setLayout(new FlowLayout());
 		searchPanel.setBackground(Color.WHITE);
-		
-		searchBarField = new JTextField("Enter query here (Click on the field to clear it, then press Enter to clear query)");
+
+		searchBarField = new JTextField(
+				"Enter query here (Click on the field to clear it, then press Enter to clear query)");
 		searchBarField.setHorizontalAlignment(JTextField.CENTER);
 		searchBarField.setColumns(80);
-		
-		   searchBarField.addKeyListener(new KeyListener() {
-			   String query;
-			   @Override
-			   public void keyTyped(KeyEvent e) {
-				   // TODO Auto-generated method stub	
-				   
-			   }
-			   
-			   @Override
-			   public void keyPressed(KeyEvent event) {
-				   if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-					   query = searchBarField.getText();
-					   if (query.length() == 0) {
-						   sorter.setRowFilter(null); 
-					   }
-					   else {
-						   sorter.setRowFilter(RowFilter.regexFilter(query));
-					   }
-				   }
-			   }
-			   
-			   @Override
-			   public void keyReleased(KeyEvent e) {
-				   // TODO Auto-generated method stub
-				   
-			   }
-			   
-		   });
-		   
-		   ClearFieldHandler clickClear = new ClearFieldHandler();
-		   searchBarField.addMouseListener(clickClear);
-		   searchPanel.add(searchBarField);
+
+		searchBarField.addKeyListener(new KeyListener() {
+			String query;
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void keyPressed(KeyEvent event) {
+				if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+					query = searchBarField.getText();
+					if (query.length() == 0) {
+						sorter.setRowFilter(null);
+					} else {
+						sorter.setRowFilter(RowFilter.regexFilter(query));
+					}
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
+
+		ClearFieldHandler clickClear = new ClearFieldHandler();
+		searchBarField.addMouseListener(clickClear);
+		searchPanel.add(searchBarField);
 
 		/* add components */
 		topPanel.add(topicLabel);
@@ -216,7 +217,7 @@ public class QueryCustomerForm {
 					return false;
 				}
 			};
-			
+
 			jtable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 			jtable.setPreferredScrollableViewportSize(new Dimension(1230, 450));
 			JScrollPane scrollPane = new JScrollPane(jtable);
@@ -253,8 +254,8 @@ public class QueryCustomerForm {
 
 	/*-----------------------------------------------------------add Button----------------------------------------------------------*/
 	private class addButtonHandler implements ActionListener {
-		
-		//JFrame class
+
+		// JFrame class
 		public class AddCustomerForm extends JFrame {
 			// initialize variables
 			JTextField firstNameField = new JTextField();
@@ -267,67 +268,67 @@ public class QueryCustomerForm {
 			JPanel buttons = new JPanel();
 			Border padding1;
 			Border padding2;
-			
+
 			// Constructor
 			public AddCustomerForm(String title) {
 				// Set title for frame and choose layout
 				super(title);
-				
+
 				getContentPane().setLayout(new BorderLayout());
-				
+
 				form.setLayout(new GridLayout(11, 1));
-				padding1 = BorderFactory.createEmptyBorder(10, 30, -40, 30); //form panel padding
+				padding1 = BorderFactory.createEmptyBorder(10, 30, -40, 30); // form panel padding
 				form.setBorder(padding1);
-				
-				//Add first name label and text field to frame
+
+				// Add first name label and text field to frame
 				form.add(new JLabel("First Name"));
 				form.add(firstNameField);
-				
-				//Add last name label and text field to frame
+
+				// Add last name label and text field to frame
 				form.add(new JLabel("Last Name"));
 				form.add(lastNameField);
-				
-				//Add address label and text field to frame
+
+				// Add address label and text field to frame
 				form.add(new JLabel("Address"));
 				form.add(addressField);
-				
-				//Add phone number label and text field to frame
+
+				// Add phone number label and text field to frame
 				form.add(new JLabel("Phone Number"));
 				form.add(phoneNumField);
-				
-				//Add submit button to frame
-				padding2 = BorderFactory.createEmptyBorder(0, 0, 20, 0); //button panel padding
+
+				// Add submit button to frame
+				padding2 = BorderFactory.createEmptyBorder(0, 0, 20, 0); // button panel padding
 				buttons.setBorder(padding2);
 				buttons.add(submitButton);
-				
+
 				// Submit Button
 				SubmitButtonHandler submitHandler = new SubmitButtonHandler();
 				submitButton.addActionListener(submitHandler);
-				
+
 				// Add clear button to frame
 				buttons.add(clearButton);
-				
+
 				// Clear Button
 				ClearButtonHandler clearHandler = new ClearButtonHandler();
 				clearButton.addActionListener(clearHandler);
-				
+
 				add(form, BorderLayout.CENTER);
 				add(buttons, BorderLayout.SOUTH);
-				
+
 			}// end constructor
-			
+
 			// TextField handler
 			private class SubmitButtonHandler implements ActionListener {
-				
+
 				String firstName;
 				String lastName;
 				String address;
 				String phoneNum;
-				
+
 				final String DATABASE_URL = "jdbc:mysql://localhost/purchases";
 				final String UserName_SQL = "root";
 				final String Password_SQL = "password";
-				
+
 				Connection connection = null;
 				Statement statement = null;
 
@@ -337,70 +338,74 @@ public class QueryCustomerForm {
 					lastName = lastNameField.getText();
 					address = addressField.getText();
 					phoneNum = phoneNumField.getText();
-					
+
 					if (firstName.isEmpty() || lastName.isEmpty() || address.isEmpty() || phoneNum.isEmpty()) {
-						JOptionPane.showMessageDialog(AddCustomerForm.this, String.format("One or more empty field(s), will not add to database", event.getActionCommand()));
-					}
-					else if (firstName.matches("^[a-zA-Z-'.\\s]+") == false || lastName.matches("^[a-zA-Z-'.\\s]+") == false || phoneNum.matches("^[+0-9\\-s]+") == false) {
-						JOptionPane.showMessageDialog(AddCustomerForm.this, String.format("One or more invalid input(s), please try again", event.getActionCommand()));
-					}
-					else {
+						JOptionPane.showMessageDialog(AddCustomerForm.this, String.format(
+								"One or more empty field(s), will not add to database", event.getActionCommand()));
+					} else if (firstName.matches("^[a-zA-Z-'.\\s]+") == false
+							|| lastName.matches("^[a-zA-Z-'.\\s]+") == false
+							|| phoneNum.matches("^[+0-9\\-s]+") == false) {
+						JOptionPane.showMessageDialog(AddCustomerForm.this, String
+								.format("One or more invalid input(s), please try again", event.getActionCommand()));
+					} else {
 						try {
-							
+
 							// establish connection to database
 							connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
-								
+
 							// create Statement for querying database
 							statement = connection.createStatement();
-							
+
 							// Insert data into database
-							PreparedStatement pstat = connection.prepareStatement("INSERT INTO Customer (firstName, lastName, address, phoneNumber) VALUES(?,?,?,?)");
+							PreparedStatement pstat = connection.prepareStatement(
+									"INSERT INTO Customer (firstName, lastName, address, phoneNumber) VALUES(?,?,?,?)");
 							pstat.setString(1, firstName);
 							pstat.setString(2, lastName);
 							pstat.setString(3, address);
 							pstat.setString(4, phoneNum);
 							pstat.executeUpdate();
-								
+
 						}
-							
-						catch(SQLException sqlException) {
+
+						catch (SQLException sqlException) {
 							sqlException.printStackTrace();
 						}
-							
+
 						finally {
 							try {
 								statement.close();
 								connection.close();
 							}
-								
-							catch ( Exception exception ) {
+
+							catch (Exception exception) {
 								exception.printStackTrace();
 							}
 						}
-						
-						JOptionPane.showMessageDialog(AddCustomerForm.this, String.format("Added to Database", event.getActionCommand()));
-						firstNameField.setText("");
-						lastNameField.setText("");
-						addressField.setText("");
-						phoneNumField.setText("");
-					}
-					
-				}
-				
-			}
-			
-			// clear button handler
-				private class ClearButtonHandler implements ActionListener {
 
-					@Override
-					public void actionPerformed(ActionEvent event) {
+						JOptionPane.showMessageDialog(AddCustomerForm.this,
+								String.format("Added to Database", event.getActionCommand()));
 						firstNameField.setText("");
 						lastNameField.setText("");
 						addressField.setText("");
 						phoneNumField.setText("");
 					}
-					
+
 				}
+
+			}
+
+			// clear button handler
+			private class ClearButtonHandler implements ActionListener {
+
+				@Override
+				public void actionPerformed(ActionEvent event) {
+					firstNameField.setText("");
+					lastNameField.setText("");
+					addressField.setText("");
+					phoneNumField.setText("");
+				}
+
+			}
 
 		}// end JFrame class
 
@@ -452,18 +457,21 @@ public class QueryCustomerForm {
 			else {
 				JOptionPane.showMessageDialog(null, "Please select a record");
 			}
-		}//end actionPerformed
-	}//end addActionListener
-   
-   /* -----------------------------------------------------------update Button----------------------------------------------------------*/
-   private class updateButtonHandler implements ActionListener {
-	 //JFrame class
-	   class UpdateCustomerForm extends JFrame {
-			
+		}// end actionPerformed
+	}// end addActionListener
+
+	/*
+	 * -----------------------------------------------------------update
+	 * Button----------------------------------------------------------
+	 */
+	private class updateButtonHandler implements ActionListener {
+		// JFrame class
+		class UpdateCustomerForm extends JFrame {
+
 			static final String DATABASE_URL = "jdbc:mysql://localhost/purchases";
 			static final String UserName_SQL = "root";
 			static final String Password_SQL = "password";
-			
+
 			JTextField firstNameField;
 			JTextField lastNameField;
 			JTextField addressField;
@@ -473,46 +481,46 @@ public class QueryCustomerForm {
 			JPanel button;
 			Border padding1;
 			Border padding2;
-			
+
 			int selectedRow = jtable.getSelectedRow();
-			String customerId = model.getValueAt(selectedRow,0).toString();
-			String firstName = model.getValueAt(selectedRow,1).toString();
-			String lastName = model.getValueAt(selectedRow,2).toString();
-			String address = model.getValueAt(selectedRow,3).toString();
-			String phoneNum = model.getValueAt(selectedRow,4).toString();
-			
-			//Constructor
+			String customerId = model.getValueAt(selectedRow, 0).toString();
+			String firstName = model.getValueAt(selectedRow, 1).toString();
+			String lastName = model.getValueAt(selectedRow, 2).toString();
+			String address = model.getValueAt(selectedRow, 3).toString();
+			String phoneNum = model.getValueAt(selectedRow, 4).toString();
+
+			// Constructor
 			public UpdateCustomerForm() {
 				super("Update Customer");
-				
+
 				getContentPane().setLayout(new BorderLayout());
-				
+
 				form = new JPanel();
 				padding1 = BorderFactory.createEmptyBorder(10, 30, 10, 30);
 				form.setBorder(padding1);
-				
+
 				form.setLayout(new GridLayout(8, 1));
-				
+
 				form.add(new JLabel("First Name"));
 				firstNameField = new JTextField();
 				firstNameField.setText(firstName);
 				form.add(firstNameField);
-				
+
 				form.add(new JLabel("Last Name"));
 				lastNameField = new JTextField();
 				lastNameField.setText(lastName);
 				form.add(lastNameField);
-				
+
 				form.add(new JLabel("Address"));
 				addressField = new JTextField();
 				addressField.setText(address);
 				form.add(addressField);
-				
+
 				form.add(new JLabel("Phone Number"));
 				phoneNumField = new JTextField();
 				phoneNumField.setText(phoneNum);
 				form.add(phoneNumField);
-				
+
 				button = new JPanel();
 				button.setLayout(new GridLayout(1, 1));
 				save = new JButton("Save");
@@ -521,7 +529,7 @@ public class QueryCustomerForm {
 					String newLastName;
 					String newAddress;
 					String newPhoneNum;
-					
+
 					Connection connection = null;
 					Statement statement = null;
 
@@ -532,98 +540,102 @@ public class QueryCustomerForm {
 						newLastName = lastNameField.getText();
 						newAddress = addressField.getText();
 						newPhoneNum = phoneNumField.getText();
-						
-						if (newFirstName.equalsIgnoreCase(firstName) && newLastName.equalsIgnoreCase(lastName) && newAddress.equalsIgnoreCase(address) && newPhoneNum.equalsIgnoreCase(phoneNum)) {
-							JOptionPane.showMessageDialog(UpdateCustomerForm.this, String.format("No changes were made", event.getActionCommand()));
-						}//end if
-						
+
+						if (newFirstName.equalsIgnoreCase(firstName) && newLastName.equalsIgnoreCase(lastName)
+								&& newAddress.equalsIgnoreCase(address) && newPhoneNum.equalsIgnoreCase(phoneNum)) {
+							JOptionPane.showMessageDialog(UpdateCustomerForm.this,
+									String.format("No changes were made", event.getActionCommand()));
+						} // end if
+
 						else {
 							try {
 								// establish connection to database
 								connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
-									
+
 								// create Statement for updating database
 								statement = connection.createStatement();
-								statement.executeUpdate("UPDATE Customer SET firstName = '" + newFirstName + "', lastName = '" + newLastName + "', address = '" + newAddress + "', phoneNumber = '" + newPhoneNum + "' WHERE customerId = '" + customerId + "' ");
+								statement.executeUpdate(
+										"UPDATE Customer SET firstName = '" + newFirstName + "', lastName = '"
+												+ newLastName + "', address = '" + newAddress + "', phoneNumber = '"
+												+ newPhoneNum + "' WHERE customerId = '" + customerId + "' ");
 							}
-									
-							catch(SQLException sqlException ) {
-								sqlException . printStackTrace () ;
+
+							catch (SQLException sqlException) {
+								sqlException.printStackTrace();
 							}
-									
+
 							finally {
 								try {
-									statement. close () ;
-									connection. close () ;
+									statement.close();
+									connection.close();
 								}
-											
-								catch ( Exception exception ) {
-										exception . printStackTrace () ;
+
+								catch (Exception exception) {
+									exception.printStackTrace();
 								}
 							}
-							JOptionPane.showMessageDialog(UpdateCustomerForm.this, String.format("Record Updated", event.getActionCommand()));
-						}//end else
+							JOptionPane.showMessageDialog(UpdateCustomerForm.this,
+									String.format("Record Updated", event.getActionCommand()));
+						} // end else
 					}
 				});
 				padding2 = BorderFactory.createEmptyBorder(10, 50, 25, 50);
 				button.setBorder(padding2);
 				button.add(save);
-				
+
 				add(form, BorderLayout.CENTER);
 				add(button, BorderLayout.SOUTH);
-				
-			} //end constructor
 
-		} //end update customer form class
-	   
+			} // end constructor
+
+		} // end update customer form class
+
 		public void actionPerformed(ActionEvent e) {
-			if(jtable.getSelectedRow() != -1) {
+			if (jtable.getSelectedRow() != -1) {
 				UpdateCustomerForm customerForm = new UpdateCustomerForm();
 				customerForm.setSize(300, 400);
 				customerForm.setLocation(400, 300);
 				customerForm.setLocationRelativeTo(null);
 				customerForm.setVisible(true);
+			} else {
+				JOptionPane.showMessageDialog(null, "Please select a record");
 			}
-			else {
-				JOptionPane.showMessageDialog(null,"Please select a record");
-			}	
 		}// end actionPerformed
-		
+
 	}// end update button handler
-   
-	
+
 	public class ClearFieldHandler implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent event) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
 			searchBarField.setText("");
-			
+
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
-		   
-	   }
+
+	}
 
 }// end class
