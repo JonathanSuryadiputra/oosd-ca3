@@ -255,7 +255,14 @@ public class QueryCustomerForm {
 
 		// JFrame class
 		public class AddCustomerForm extends JFrame {
+			
+			
 			// initialize variables
+
+			static final String DATABASE_URL = "jdbc:mysql://localhost/purchases";
+			static final String UserName_SQL = "root";
+			static final String Password_SQL = "password";
+			
 			JTextField firstNameField = new JTextField();
 			JTextField lastNameField = new JTextField();
 			JTextField addressField = new JTextField();
@@ -386,6 +393,7 @@ public class QueryCustomerForm {
 						lastNameField.setText("");
 						addressField.setText("");
 						phoneNumField.setText("");
+						refreshJTable();
 					}
 
 				}
@@ -574,6 +582,7 @@ public class QueryCustomerForm {
 							}
 							JOptionPane.showMessageDialog(UpdateCustomerForm.this,
 									String.format("Record Updated", event.getActionCommand()));
+							refreshJTable();
 						} // end else
 					}
 				});
@@ -601,7 +610,94 @@ public class QueryCustomerForm {
 		}// end actionPerformed
 
 	}// end update button handler
+	
+	/*
+	 * -----------------------------------------------------------Refresh
+	 * JTABLE----------------------------------------------------------
+	 */
+	private void refreshJTable() {
 
+		Connection connection = null;
+		Statement statement = null;
+
+		try {
+			connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
+			statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(
+					"SELECT customerId, firstName, lastName, address, phoneNumber FROM customer ORDER BY customerId ASC");
+			ResultSetMetaData metaData = resultSet.getMetaData(); /* create for the columns count */
+			int numberOfColumns = metaData.getColumnCount(); /* get the number of columns for Query Table */
+			int numberOfRows = getJTableNumberOfRows(); /* get the number of rows for Query Table */
+			Object[][] data = new Object[numberOfRows][numberOfColumns]; /* create a storage for the database */
+
+			model.getDataVector().removeAllElements(); /* remove JTable all elements */
+
+			/* While loop for getting all database into object */
+			int j = 0, k = 0;
+			while (resultSet.next()) {
+				for (int i = 1; i <= numberOfColumns; i++) {
+					data[j][k] = resultSet.getObject(i);
+					k++;
+				}
+				Object[] addRow = { data[j][0], data[j][1], data[j][2], data[j][3], data[j][4] };
+				model.addRow(addRow);
+				k = 0;
+				j++;
+			} // end while
+				// model.fireTableDataChanged(); /* no use at the moment*/
+		} // end try
+		catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+			System.exit(1);
+		} // end catch
+		finally // ensure statement and connection are closed properly
+		{
+			try {
+				statement.close();
+				connection.close();
+			} // end try
+			catch (Exception exception) {
+				exception.printStackTrace();
+				System.exit(1);
+			} // end catch
+		} // end finally
+	}// end refreshTable
+	
+	/*
+	 * -----------------------------------------------------------get Number of Rows
+	 * from Database----------------------------------------------------------
+	 */
+	private int getJTableNumberOfRows() {
+
+		int count = 0; /* create a integer object for rows count */
+		Connection connection = null;
+		Statement statement = null;
+		try {
+			connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
+			statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) as numberOfRows FROM customer");
+			resultSet.next();
+			count = resultSet.getInt("numberOfRows");
+			resultSet.close();
+		} // end try
+		catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+			System.exit(1);
+		} // end catch
+		finally // ensure statement and connection are closed properly
+		{
+			try {
+				statement.close();
+				connection.close();
+			} // end try
+			catch (Exception exception) {
+				exception.printStackTrace();
+				System.exit(1);
+			} // end catch
+		} // end finally
+		return count; /* return the result of rows count */
+	}// end getJTableNumberOfRows
+	
 	public class ClearFieldHandler implements MouseListener {
 
 		@Override
