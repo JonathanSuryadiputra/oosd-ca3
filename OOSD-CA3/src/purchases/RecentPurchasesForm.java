@@ -29,8 +29,6 @@ import java.awt.Dimension;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
-import purchases.AddCustomerForm;
-
 public class RecentPurchasesForm {
 	
 	private JPanel RecentPurchasesFormPanel = new JPanel();
