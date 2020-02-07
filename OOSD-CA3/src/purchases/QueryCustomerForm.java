@@ -76,9 +76,6 @@ public class QueryCustomerForm {
 
 		deleteButtonHandler deleteHandler = new deleteButtonHandler();
 		deleteButton.addActionListener(deleteHandler);
-
-		RecentPurchasesHandler RecentPurchaseHandler = new RecentPurchasesHandler();
-		RecentPurchasesButton.addActionListener(RecentPurchaseHandler);
 		
 		//set up table search bar and sorter
 		final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
@@ -594,43 +591,6 @@ public class QueryCustomerForm {
 		
 	}// end update button handler
    
-   /* -----------------------------------------------------------Recent purchases button----------------------------------------------------------*/
-
-	private class RecentPurchasesHandler implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			if (jtable.getSelectedRow() != -1) {
-
-				Connection connection = null;
-				Statement statement = null;
-
-				int selectedRowIndex = jtable.getSelectedRow();
-				String RenctlyPurchasesId = model.getValueAt(selectedRowIndex, 0).toString();
-
-				try {
-					connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
-					statement = connection.createStatement();
-					statement.executeUpdate("select firstName, lastName, productName, qtyProduct from customer inner join invoice on customer.customerId = invoice.customerId inner join product on invoice.productId = product.productId;");
-
-				} // end try
-
-				catch (SQLException sqlException) {
-					sqlException.printStackTrace();
-				} // end catch
-
-				finally {
-					try {
-						statement.close();
-						connection.close();
-					} // end try
-
-					catch (Exception exception) {
-						exception.printStackTrace();
-					} // end catch
-				} // end finally
-				JOptionPane.showMessageDialog(null, "True");
-			}
-		}// end actionPerformed
-	}// end addActionListener
 	
 	public class ClearFieldHandler implements MouseListener {
 

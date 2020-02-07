@@ -1,5 +1,6 @@
 package purchases;
 
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -28,11 +29,11 @@ public class MainFrame extends JFrame {
 	private JPanel queryCustomerPanel = new JPanel();
 	private JPanel queryProductPanel = new JPanel();
 	private JPanel queryInvoicePanel = new JPanel();
-	private JPanel RecentPurchasePanel = new JPanel();
+	private JPanel purchaseRecordPanel = new JPanel();
 	
 	private CardLayout cardlayout = new CardLayout(); 
 	
-	final String[] ComboBoxString = new String[] {"Select Option","Query Customer Table","Query Product table", "Query Invoice table","Recent Purchases table"};
+	final String[] ComboBoxString = new String[] {"Select Option","Query Customer Table","Query Product table", "Query Invoice table","Purchases Record table"};
 	final JComboBox<String> comboBox = new JComboBox<>(ComboBoxString);
 	
 	public MainFrame() { /* full screen: max-width: 1360, max-height: 841 */
@@ -48,15 +49,12 @@ public class MainFrame extends JFrame {
 		Dimension comboBoxSize = new Dimension(500,30);		
 		final JLabel topic = new JLabel("Purchases System");
 		
-		JLabel sometext1 = new JLabel("Object Oriented Software Development Y2 Project        ");
-		JLabel sometext2 = new JLabel("by Team: Weihao Liao, Jonathan Suryadiputra, Chi Ieong Ng");
 		JLabel imageLabel = new JLabel();
-		Icon image = new ImageIcon( getClass().getResource("image.jpg"));
+		ImageIcon image = new ImageIcon( getClass().getResource("imageIcon.png"));
 		imageLabel.setIcon(image);
 		imageLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		imageLabel.setVerticalTextPosition(SwingConstants.BOTTOM);
-		imageLabel.setPreferredSize(new Dimension(400,610)); 
-		sometext1.setFont(someTextFont);
+
 		/* comboBox */
 		comboBoxHandler selection = new comboBoxHandler();
 		comboBox.addActionListener(selection);
@@ -67,15 +65,13 @@ public class MainFrame extends JFrame {
 		alterPanel.add(queryCustomerPanel,"2");
 		alterPanel.add(queryProductPanel,"3");
 		alterPanel.add(queryInvoicePanel,"4");
-		alterPanel.add(RecentPurchasePanel,"5");
+		alterPanel.add(purchaseRecordPanel,"5");
 		
 		/* add Components */
 		topPanel.add(topic);
 		topPanel.add(comboBox);
 		mainPanel.add(contentPanel);
 		contentPanel.add(imageLabel);
-		contentPanel.add(sometext1);
-		contentPanel.add(sometext2);
 		
 		/* Set Style */
 		topic.setFont(topicFont);
@@ -108,9 +104,8 @@ public class MainFrame extends JFrame {
 		queryProductPanel = queryProductObj.getJPanel(); 
 		QueryInvoiceForm queryInvoiceObj = new QueryInvoiceForm();
 		queryInvoicePanel = queryInvoiceObj.getJPanel(); 
-		RecentPurchasesForm rp = new RecentPurchasesForm();
-		RecentPurchasePanel = rp.getJPanel();
-		
+		PurchasesRecordForm purchasesRecord = new PurchasesRecordForm();
+		purchaseRecordPanel = purchasesRecord.getJPanel();
 		
 	}
 	
@@ -128,9 +123,10 @@ public class MainFrame extends JFrame {
 			case "Query Invoice table": 
 				cardlayout.show(alterPanel, "4");	
 				break;	
-			case "Recent Purchases table": 
+			case "Purchases Record table":
 				cardlayout.show(alterPanel, "5");	
-				break;	
+				break;
+				
 			}//end switch
 		}//end actionPerformed
 	}//end comboBoxHandler

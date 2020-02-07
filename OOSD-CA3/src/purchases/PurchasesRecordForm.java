@@ -29,7 +29,7 @@ import java.awt.Dimension;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
-public class RecentPurchasesForm {
+public class PurchasesRecordForm {
 	
 	private JPanel RecentPurchasesFormPanel = new JPanel();
 	
@@ -47,21 +47,16 @@ public class RecentPurchasesForm {
    private DefaultTableModel model;
    
    // constructor
-   public RecentPurchasesForm() {
+   public PurchasesRecordForm() {
 	   
 	   getQuery();
 	   
 	   JLabel topicLabel = new JLabel("           Recently Purchases Table           ");
-	   JButton refreshButton = new JButton("Refresh");
 	   	
-	  
-	   refreshButtonHandler refreshHandler = new refreshButtonHandler();
-	   refreshButton.addActionListener(refreshHandler);
 	   
 	   /* add components */
 	   topPanel.add(topicLabel);
 	   panel.add(jtablePanel);
-	   bottomPanel.add(refreshButton);
 	   RecentPurchasesFormPanel.add(topPanel);
 	   RecentPurchasesFormPanel.add(panel);
 	   RecentPurchasesFormPanel.add(bottomPanel);   
@@ -73,9 +68,7 @@ public class RecentPurchasesForm {
 	   Dimension buttonSize = new Dimension(200,50);
 	   
 	   topicLabel.setFont(topicFont);
-	   refreshButton.setFont(buttonFont);
-	   refreshButton.setBackground(Color.LIGHT_GRAY);
-	   refreshButton.setPreferredSize(buttonSize);
+
 
 	   jtablePanel.setPreferredSize(new Dimension(1260,500));
 	   jtablePanel.setBorder(formBorder);
@@ -163,14 +156,5 @@ public class RecentPurchasesForm {
 	   } // end finally
    }//end getQuery
    
-//   ---------------------------------------------------Refresh Button-----------------------------------------------------------------
-   private class refreshButtonHandler implements ActionListener {
-
-	   	@Override
-		public void actionPerformed(ActionEvent e) {
-	   	getQuery();
-	   	getJPanel();
-	   	}// end actionPerformed	
-   }//end ActionListener
    
 }// end class
