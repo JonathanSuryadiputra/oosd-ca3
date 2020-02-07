@@ -66,7 +66,6 @@ public class QueryCustomerForm {
 		JButton addButton = new JButton("Create");
 		JButton updateButton = new JButton("Update");
 		JButton deleteButton = new JButton("Delete");
-		JButton RecentPurchasesButton = new JButton("Recent Purchases");
 
 		addButtonHandler addHandler = new addButtonHandler();
 		addButton.addActionListener(addHandler);
@@ -131,7 +130,6 @@ public class QueryCustomerForm {
 		bottomPanel.add(new JLabel("                   "));
 		bottomPanel.add(deleteButton);
 		bottomPanel.add(new JLabel("                   "));
-		bottomPanel.add(RecentPurchasesButton);
 		queryCustomerFormPanel.add(topPanel);
 		queryCustomerFormPanel.add(searchPanel);
 		queryCustomerFormPanel.add(panel);
@@ -148,17 +146,17 @@ public class QueryCustomerForm {
 		addButton.setFont(buttonFont);
 		updateButton.setFont(buttonFont);
 		deleteButton.setFont(buttonFont);
-		RecentPurchasesButton.setFont(buttonFont);
+
 
 		addButton.setBackground(Color.lightGray);
 		updateButton.setBackground(Color.lightGray);
 		deleteButton.setBackground(Color.lightGray);
-		RecentPurchasesButton.setBackground(Color.lightGray);
+
 
 		addButton.setPreferredSize(buttonSize);
 		updateButton.setPreferredSize(buttonSize);
 		deleteButton.setPreferredSize(buttonSize);
-		RecentPurchasesButton.setPreferredSize(buttonSize);
+
 
 		jtablePanel.setPreferredSize(new Dimension(1260, 500));
 		jtablePanel.setBorder(formBorder);

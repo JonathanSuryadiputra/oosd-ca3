@@ -31,8 +31,8 @@ public class MainFrame extends JFrame {
 
 	private CardLayout cardlayout = new CardLayout();
 
-	final String[] ComboBoxString = new String[] { "Select Option", "Query Customer Table", "Query Product table",
-			"Query Invoice table", "Purchases Record table" };
+	final String[] ComboBoxString = new String[] { "Select Option", "Query Customer Table", "Query Product Table",
+			"Query Invoice Table", "Purchases Record Table" };
 	final JComboBox<String> comboBox = new JComboBox<>(ComboBoxString);
 
 	public MainFrame() { /* full screen: max-width: 1360, max-height: 841 */
@@ -115,13 +115,13 @@ public class MainFrame extends JFrame {
 			case "Query Customer Table":
 				cardlayout.show(alterPanel, "2");
 				break;
-			case "Query Product table":
+			case "Query Product Table":
 				cardlayout.show(alterPanel, "3");
 				break;
-			case "Query Invoice table":
+			case "Query Invoice Table":
 				cardlayout.show(alterPanel, "4");
 				break;
-			case "Purchases Record table":
+			case "Purchases Record Table":
 				cardlayout.show(alterPanel, "5");
 				break;
 
