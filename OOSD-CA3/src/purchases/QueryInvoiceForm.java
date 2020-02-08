@@ -231,10 +231,7 @@ public class QueryInvoiceForm {
 		} // end finally
 	}// end getQuery
 
-	/*
-	 * -----------------------------------------------------------add
-	 * Button----------------------------------------------------------
-	 */
+	/*-----------------------------------------------------------add Button----------------------------------------------------------*/
 	private class addButtonHandler implements ActionListener {
 
 		// JFrame class
@@ -345,9 +342,11 @@ public class QueryInvoiceForm {
 
 				form.add(new JLabel("Customer ID"));
 				customerList = getCustomerList();
+				customerList.setSelectedIndex(-1);
 				form.add(customerList);
 				form.add(new JLabel("Product ID"));
 				productList = getProductList();
+				productList.setSelectedIndex(-1);
 				form.add(productList);
 				form.add(new JLabel("Quantity"));
 				form.add(qtyProductField);
@@ -371,72 +370,88 @@ public class QueryInvoiceForm {
 			// TextField handler
 			public class SubmitButtonHandler implements ActionListener {
 				@Override
-				public void actionPerformed(ActionEvent e) {
-					// get customer value
-					String customerIdstr = customerList.getSelectedItem().toString();
-					customerIdstr = customerIdstr.substring(customerIdstr.indexOf("(") + 1, customerIdstr.indexOf(")"));
-					int customerId = Integer.parseInt(customerIdstr);
-
-					// get product value
-					String productIdstr = productList.getSelectedItem().toString();
-					productIdstr = productIdstr.substring(productIdstr.indexOf("(") + 1, productIdstr.indexOf(")"));
-					int productId = Integer.parseInt(productIdstr);
-
-					// get quantity value
-					int qtyProduct = Integer.parseInt(qtyProductField.getText());
-
-					if (qtyProduct < 1 || qtyProduct > 99) {
-						JOptionPane.showMessageDialog(null, "Invalid Quantity input");
+				public void actionPerformed(ActionEvent event) {
+					// check if the form fields are not empty
+					if (qtyProductField.getText().isEmpty() || customerList.getSelectedIndex() == -1 || productList.getSelectedIndex() == -1) {
+						JOptionPane.showMessageDialog(AddInvoiceForm.this, String.format(
+								"One or more empty field(s), will not add to database", event.getActionCommand()));
 					}
-
 					else {
+						// get customer value
+						String customerIdstr = customerList.getSelectedItem().toString();
+						customerIdstr = customerIdstr.substring(customerIdstr.indexOf("(") + 1, customerIdstr.indexOf(")"));
+						int customerId = Integer.parseInt(customerIdstr);
 
-						SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
-						SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss");
-						Date d = new Date();
-
-						Connection connection = null;
-						Statement statement = null;
-
-						try {
-							connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
-							statement = connection.createStatement();
-							statement.executeUpdate(
-									"INSERT INTO invoice (customerId, productId, qtyProduct, invoiceDate, invoiceTime)"
-											+ " VALUES " + "(" + customerId + "," + productId + "," + qtyProduct + ",'"
-											+ formatDate.format(d) + "','" + formatTime.format(d) + "')");
+						// get product value
+						String productIdstr = productList.getSelectedItem().toString();
+						productIdstr = productIdstr.substring(productIdstr.indexOf("(") + 1, productIdstr.indexOf(")"));
+						int productId = Integer.parseInt(productIdstr);
+						
+						// check if the quantity input is a valid number
+						if (qtyProductField.getText().matches("^[0-9]+") == false) {
+							JOptionPane.showMessageDialog(AddInvoiceForm.this, 
+									String.format("Invalid quantity input, please try again", event.getActionCommand()));
 						}
-
-						catch (SQLException sqlException) {
-							sqlException.printStackTrace();
+						// check if the quantity input is no less than 1 and not more than 100
+						else if (Integer.parseInt(qtyProductField.getText()) < 1 || Integer.parseInt(qtyProductField.getText()) > 100) {
+							JOptionPane.showMessageDialog(AddInvoiceForm.this, 
+									String.format("Please enter a quantity 1-100, no more, no less", event.getActionCommand()));
 						}
+						// else execute insert
+						else {
+							// get quantity value and parse it into integer format
+							int qtyProduct = Integer.parseInt(qtyProductField.getText());
 
-						finally {
+							SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+							SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss");
+							Date d = new Date();
+
+							Connection connection = null;
+							Statement statement = null;
+
 							try {
-								statement.close();
-								connection.close();
+								connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
+								statement = connection.createStatement();
+								statement.executeUpdate(
+										"INSERT INTO invoice (customerId, productId, qtyProduct, invoiceDate, invoiceTime)"
+												+ " VALUES " + "(" + customerId + "," + productId + "," + qtyProduct + ",'"
+												+ formatDate.format(d) + "','" + formatTime.format(d) + "')");
 							}
 
-							catch (Exception exception) {
-								exception.printStackTrace();
+							catch (SQLException sqlException) {
+								sqlException.printStackTrace();
 							}
-						}
 
-						JOptionPane.showMessageDialog(null, "Created New Record");
-						refreshJTable();
-					} // end else
-				}
-			}
+							finally {
+								try {
+									statement.close();
+									connection.close();
+								}
+
+								catch (Exception exception) {
+									exception.printStackTrace();
+								}
+							}
+
+							JOptionPane.showMessageDialog(null, "Created New Record");
+							refreshJTable();
+							customerList.setSelectedIndex(-1);
+							productList.setSelectedIndex(-1);
+							qtyProductField.setText("");
+						} // end inner else
+					} // end outer else
+				}// end action event
+			}// end submit button handler
 
 			// Clear button handler
 			public class ClearButtonHandler implements ActionListener {
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(ActionEvent event) {
 					customerList.setSelectedIndex(-1);
 					productList.setSelectedIndex(-1);
 					qtyProductField.setText("");
-				}
-			}
+				} // end action event
+			} // end clear button handler
 		}// end JFrame class
 
 		@Override
@@ -449,10 +464,7 @@ public class QueryInvoiceForm {
 		}// end actionPerformed
 	}// end addActionListener
 
-	/*
-	 * -----------------------------------------------------------update
-	 * Button----------------------------------------------------------
-	 */
+	/*-----------------------------------------------------------update Button----------------------------------------------------------*/
 	private class updateButtonHandler implements ActionListener {
 		class UpdateInvoiceForm extends JFrame {
 
@@ -572,45 +584,60 @@ public class QueryInvoiceForm {
 				save = new JButton("Save");
 				save.addActionListener(new ActionListener() {
 					@Override
-					public void actionPerformed(ActionEvent e) {
+					public void actionPerformed(ActionEvent event) {
 						// TODO Auto-generated method stub
-						int newQtyProduct = Integer.parseInt(qtyProductField.getText());
 
 						Connection connection = null;
 						Statement statement = null;
 
-						if (newQtyProduct < 1 || newQtyProduct > 99) {
-							JOptionPane.showMessageDialog(null, "Invalid quantity input");
-						} // end if
-						else if (newQtyProduct == Integer.parseInt(qtyProduct)) {
-							JOptionPane.showMessageDialog(null, "No changes were made");
-						} else {
-							try {
-								connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
-								statement = connection.createStatement();
-								statement.executeUpdate("UPDATE invoice SET qtyProduct =" + newQtyProduct
-										+ " WHERE (customerId,productId,invoiceDate,invoiceTime) = (" + customerId + ","
-										+ productId + ", '" + invoiceDate + "', '" + invoiceTime + "')");
-							} // end try
-
-							catch (SQLException sqlException) {
-								sqlException.printStackTrace();
-							} // end catch
-
-							finally {
+						//outer if-else if-else statement for field validations
+						if (qtyProductField.getText().isEmpty()) {
+							JOptionPane.showMessageDialog(null, "Quantity field is empty, will not save changes");
+						}
+						else if (qtyProductField.getText().matches("^[0-9]+") == false) {
+							JOptionPane.showMessageDialog(UpdateInvoiceForm.this, 
+									String.format("Invalid quantity change, please try again", event.getActionCommand()));
+						}
+						else {
+							// nested if-else if-else
+							if (Integer.parseInt(qtyProductField.getText()) == Integer.parseInt(qtyProduct)) {
+								JOptionPane.showMessageDialog(null, "No changes were made");
+							}
+							else if (Integer.parseInt(qtyProductField.getText()) < 1 || Integer.parseInt(qtyProductField.getText()) > 100) {
+								JOptionPane.showMessageDialog(UpdateInvoiceForm.this, 
+										String.format("Please enter a quantity 1-100, no more, no less", event.getActionCommand()));
+							}
+							else {
+								int newQtyProduct = Integer.parseInt(qtyProductField.getText());
+								
 								try {
-									statement.close();
-									connection.close();
+									connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
+									statement = connection.createStatement();
+									statement.executeUpdate("UPDATE invoice SET qtyProduct =" + newQtyProduct
+											+ " WHERE (customerId,productId,invoiceDate,invoiceTime) = (" + customerId + ","
+											+ productId + ", '" + invoiceDate + "', '" + invoiceTime + "')");
 								} // end try
 
-								catch (Exception exception) {
-									exception.printStackTrace();
+								catch (SQLException sqlException) {
+									sqlException.printStackTrace();
 								} // end catch
-							} // end finally
 
-							JOptionPane.showMessageDialog(null, "Record Updated");
-							refreshJTable();
-						}
+								finally {
+									try {
+										statement.close();
+										connection.close();
+									} // end try
+
+									catch (Exception exception) {
+										exception.printStackTrace();
+									} // end catch
+								} // end finally
+
+								JOptionPane.showMessageDialog(null, "Record Updated");
+								refreshJTable();
+							}// end inner else
+							
+						}// end outer else
 					}
 				});
 				buttonPanel = new JPanel();
@@ -640,10 +667,7 @@ public class QueryInvoiceForm {
 		}
 	}
 
-	/*
-	 * -----------------------------------------------------------delete
-	 * Button----------------------------------------------------------
-	 */
+	/*-----------------------------------------------------------delete Button----------------------------------------------------------*/
 	private class deleteButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -690,6 +714,7 @@ public class QueryInvoiceForm {
 		}// end actionPerformed
 	}// end deleteActionListener
 
+	// Clear field handler for query text
 	public class ClearFieldHandler implements MouseListener {
 
 		@Override
@@ -724,10 +749,7 @@ public class QueryInvoiceForm {
 
 	}
 
-	/*
-	 * -----------------------------------------------------------Refresh
-	 * JTABLE----------------------------------------------------------
-	 */
+	/*-----------------------------------------------------------Refresh JTABLE----------------------------------------------------------*/
 	private void refreshJTable() {
 
 		Connection connection = null;
@@ -776,10 +798,7 @@ public class QueryInvoiceForm {
 		} // end finally
 	}// end refreshTable
 
-	/*
-	 * -----------------------------------------------------------get Number of Rows
-	 * from Database----------------------------------------------------------
-	 */
+	/*-----------------------------------------------------------get Number of Rows from Database----------------------------------------------------------*/
 	private int getJTableNumberOfRows() {
 
 		int count = 0; /* create a integer object for rows count */

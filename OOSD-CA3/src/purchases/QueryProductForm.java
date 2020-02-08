@@ -241,10 +241,7 @@ public class QueryProductForm {
 		} // end finally
 	}// end getQuery
 
-	/*
-	 * -----------------------------------------------------------add
-	 * Button----------------------------------------------------------
-	 */
+	/*-----------------------------------------------------------add Button----------------------------------------------------------*/
 	private class addButtonHandler implements ActionListener {
 
 		// JFrame class
@@ -323,12 +320,14 @@ public class QueryProductForm {
 					if (productName.isEmpty() || description.isEmpty() || price.isEmpty()) {
 						JOptionPane.showMessageDialog(AddProductForm.this, String.format(
 								"One or more empty field(s), will not add to database", event.getActionCommand()));
-					} else if (productName.matches("^[a-zA-Z-'.\\s]+") == false
+					}
+					else if (productName.matches("^[a-zA-Z-'.\\s0-9]+") == false
 							|| description.matches("^[a-zA-Z-' .\\s0-9]+") == false
-							|| price.matches("^[+0-9,\\s.]+") == false) {
+							|| price.matches("^[0-9.]+") == false) {
 						JOptionPane.showMessageDialog(AddProductForm.this, String
 								.format("One or more invalid input(s), please try again", event.getActionCommand()));
-					} else {
+					}
+					else {
 
 						try {
 
@@ -401,10 +400,7 @@ public class QueryProductForm {
 		}// end actionPerformed
 	}// end addActionListener
 
-	/*
-	 * -----------------------------------------------------------update
-	 * Button----------------------------------------------------------
-	 */
+	/*-----------------------------------------------------------update Button----------------------------------------------------------*/
 
 	private class updateButtonHandler implements ActionListener {
 		class UpdateProductForm extends JFrame {
@@ -462,7 +458,18 @@ public class QueryProductForm {
 								&& newPrice.equalsIgnoreCase(price)) {
 							JOptionPane.showMessageDialog(UpdateProductForm.this,
 									String.format("No changes were made", event.getActionCommand()));
-						} else {
+						}
+						else if (newProductName.isEmpty() || newDescription.isEmpty() || newPrice.isEmpty()) {
+							JOptionPane.showMessageDialog(UpdateProductForm.this, String.format(
+									"One or more empty field(s), will not save changes", event.getActionCommand()));
+						}
+						else if (newProductName.matches("^[a-zA-Z-'.\\s0-9]+") == false
+								|| newDescription.matches("^[a-zA-Z-' .\\s0-9]+") == false
+								|| newPrice.matches("^[0-9.]+") == false) {
+							JOptionPane.showMessageDialog(UpdateProductForm.this, String
+									.format("One or more invalid change(s), please try again", event.getActionCommand()));
+						}
+						else {
 							try {
 								connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
 								statement = connection.createStatement();
@@ -516,10 +523,7 @@ public class QueryProductForm {
 		}// end actionPerformed
 	}// end updateActionListener
 
-	/*
-	 * -----------------------------------------------------------delete
-	 * Button----------------------------------------------------------
-	 */
+	/*-----------------------------------------------------------delete Button----------------------------------------------------------*/
 
 	private class deleteButtonHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -561,10 +565,7 @@ public class QueryProductForm {
 		}// end actionPerformed
 	}// end deleteActionListener
 
-	/*
-	 * -----------------------------------------------------------Refresh
-	 * JTABLE----------------------------------------------------------
-	 */
+	/*-----------------------------------------------------------Refresh JTABLE----------------------------------------------------------*/
 	private void refreshJTable() {
 
 		Connection connection = null;
@@ -613,10 +614,7 @@ public class QueryProductForm {
 		} // end finally
 	}// end refreshTable
 
-	/*
-	 * -----------------------------------------------------------get Number of Rows
-	 * from Database----------------------------------------------------------
-	 */
+	/*-----------------------------------------------------------get Number of Rows from Database----------------------------------------------------------*/
 	private int getJTableNumberOfRows() {
 
 		int count = 0; /* create a integer object for rows count */
@@ -648,6 +646,7 @@ public class QueryProductForm {
 		return count; /* return the result of rows count */
 	}// end getJTableNumberOfRows
 
+	// Clear field handler for query field
 	public class ClearFieldHandler implements MouseListener {
 
 		@Override

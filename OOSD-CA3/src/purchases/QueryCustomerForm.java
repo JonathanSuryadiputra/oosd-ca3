@@ -339,6 +339,7 @@ public class QueryCustomerForm {
 
 				@Override
 				public void actionPerformed(ActionEvent event) {
+					//get values from form
 					firstName = firstNameField.getText();
 					lastName = lastNameField.getText();
 					address = addressField.getText();
@@ -347,12 +348,14 @@ public class QueryCustomerForm {
 					if (firstName.isEmpty() || lastName.isEmpty() || address.isEmpty() || phoneNum.isEmpty()) {
 						JOptionPane.showMessageDialog(AddCustomerForm.this, String.format(
 								"One or more empty field(s), will not add to database", event.getActionCommand()));
-					} else if (firstName.matches("^[a-zA-Z-'.\\s]+") == false
+					}
+					else if (firstName.matches("^[a-zA-Z-'.\\s]+") == false
 							|| lastName.matches("^[a-zA-Z-'.\\s]+") == false
 							|| phoneNum.matches("^[+0-9\\-s]+") == false) {
 						JOptionPane.showMessageDialog(AddCustomerForm.this, String
 								.format("One or more invalid input(s), please try again", event.getActionCommand()));
-					} else {
+					}
+					else {
 						try {
 
 							// establish connection to database
@@ -466,10 +469,7 @@ public class QueryCustomerForm {
 		}// end actionPerformed
 	}// end addActionListener
 
-	/*
-	 * -----------------------------------------------------------update
-	 * Button----------------------------------------------------------
-	 */
+	/*-----------------------------------------------------------update Button----------------------------------------------------------*/
 	private class updateButtonHandler implements ActionListener {
 		// JFrame class
 		class UpdateCustomerForm extends JFrame {
@@ -547,12 +547,25 @@ public class QueryCustomerForm {
 						newAddress = addressField.getText();
 						newPhoneNum = phoneNumField.getText();
 
+						// check if there are no changes made
 						if (newFirstName.equalsIgnoreCase(firstName) && newLastName.equalsIgnoreCase(lastName)
 								&& newAddress.equalsIgnoreCase(address) && newPhoneNum.equalsIgnoreCase(phoneNum)) {
 							JOptionPane.showMessageDialog(UpdateCustomerForm.this,
 									String.format("No changes were made", event.getActionCommand()));
-						} // end if
-
+						}
+						// check if there are any empty fields
+						else if (newFirstName.isEmpty() || newLastName.isEmpty() || newAddress.isEmpty() || newPhoneNum.isEmpty()) {
+							JOptionPane.showMessageDialog(UpdateCustomerForm.this, String.format(
+									"One or more empty field(s), will not save changes", event.getActionCommand()));
+						}
+						// check if inputs are valid
+						else if (newFirstName.matches("^[a-zA-Z-'.\\s]+") == false
+									|| newLastName.matches("^[a-zA-Z-'.\\s]+") == false
+									|| newPhoneNum.matches("^[+0-9\\-s]+") == false) {
+								JOptionPane.showMessageDialog(UpdateCustomerForm.this, String
+										.format("One or more invalid change(s), please try again", event.getActionCommand()));
+						} // input validation if statement
+						// execute insert record
 						else {
 							try {
 								// establish connection to database
@@ -561,10 +574,10 @@ public class QueryCustomerForm {
 								// create Statement for updating database
 								statement = connection.createStatement();
 								statement.executeUpdate(
-										"UPDATE Customer SET firstName = '" + newFirstName + "', lastName = '"
-												+ newLastName + "', address = '" + newAddress + "', phoneNumber = '"
+										"UPDATE Customer SET firstName = '" + newFirstName + "', lastName = '" 
+								+ newLastName + "', address = '" + newAddress + "', phoneNumber = '" 
 												+ newPhoneNum + "' WHERE customerId = '" + customerId + "' ");
-							}
+								}
 
 							catch (SQLException sqlException) {
 								sqlException.printStackTrace();
@@ -611,10 +624,9 @@ public class QueryCustomerForm {
 
 	}// end update button handler
 	
-	/*
-	 * -----------------------------------------------------------Refresh
-	 * JTABLE----------------------------------------------------------
-	 */
+	/*-----------------------------------------------------------Refresh JTable----------------------------------------------------------*/
+	
+	/*-----------------------------------------------------------Refresh JTABLE----------------------------------------------------------*/
 	private void refreshJTable() {
 
 		Connection connection = null;
@@ -663,10 +675,7 @@ public class QueryCustomerForm {
 		} // end finally
 	}// end refreshTable
 	
-	/*
-	 * -----------------------------------------------------------get Number of Rows
-	 * from Database----------------------------------------------------------
-	 */
+	/*---------------------------------------------get Number of Rows from Database------------------------------------------------------*/
 	private int getJTableNumberOfRows() {
 
 		int count = 0; /* create a integer object for rows count */
@@ -698,6 +707,9 @@ public class QueryCustomerForm {
 		return count; /* return the result of rows count */
 	}// end getJTableNumberOfRows
 	
+	/*---------------------------------------------Clear Button Handler for Clear Button on Add Form-------------------------------------*/
+	
+	// Clear Field Handler for query text
 	public class ClearFieldHandler implements MouseListener {
 
 		@Override
