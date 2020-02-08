@@ -144,7 +144,7 @@ public class PurchasesRecordForm {
 
 	public void getQuery() {
 
-		String[] columnNames = { "firstName", "lastName", "productName", "qtyProduct" };
+		String[] columnNames = { "First Name", "Surname", "Product Name", "Price (\u20ac)", "Quantity", "Total Price (\u20ac)", "Purchase Date", "Purchase Time" };
 
 		Connection connection = null;
 		Statement statement = null;
@@ -153,7 +153,7 @@ public class PurchasesRecordForm {
 			connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
 			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
-					"select firstName, lastName, productName, qtyProduct from customer inner join invoice on customer.customerId = invoice.customerId inner join product on invoice.productId = product.productId;");
+					"select firstName, lastName, productName, price, qtyProduct, (price * qtyProduct), invoiceDate, invoiceTime from customer inner join invoice on customer.customerId = invoice.customerId inner join product on invoice.productId = product.productId;");
 
 			ResultSetMetaData metaData = resultSet.getMetaData();
 
@@ -184,10 +184,14 @@ public class PurchasesRecordForm {
 			JScrollPane scrollPane = new JScrollPane(jtable);
 
 			jtablePanel.add(scrollPane);
-			jtable.getColumnModel().getColumn(0).setPreferredWidth(150);
+			jtable.getColumnModel().getColumn(0).setPreferredWidth(250);
 			jtable.getColumnModel().getColumn(1).setPreferredWidth(250);
 			jtable.getColumnModel().getColumn(2).setPreferredWidth(250);
-			jtable.getColumnModel().getColumn(3).setPreferredWidth(400);
+			jtable.getColumnModel().getColumn(3).setPreferredWidth(200);
+			jtable.getColumnModel().getColumn(4).setPreferredWidth(200);
+			jtable.getColumnModel().getColumn(5).setPreferredWidth(200);
+			jtable.getColumnModel().getColumn(6).setPreferredWidth(250);
+			jtable.getColumnModel().getColumn(7).setPreferredWidth(250);
 			jtable.setAutoResizeMode(jtable.AUTO_RESIZE_LAST_COLUMN);
 			jtable.setBackground(Color.white);
 			jtable.setForeground(Color.black);
@@ -195,10 +199,12 @@ public class PurchasesRecordForm {
 			jtable.setFont(new Font("Serif", Font.PLAIN, 15));
 
 		} // end try
+		
 		catch (SQLException sqlException) {
 			sqlException.printStackTrace();
 			System.exit(1);
 		} // end catch
+		
 		finally // ensure statement and connection are closed properly
 		{
 			try {
@@ -210,6 +216,7 @@ public class PurchasesRecordForm {
 				System.exit(1);
 			} // end catch
 		} // end finally
+		
 	}// end getQuery
 	
 	// Clear field handler for query field

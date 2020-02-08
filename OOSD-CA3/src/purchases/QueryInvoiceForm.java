@@ -162,7 +162,7 @@ public class QueryInvoiceForm {
 
 	public void getQuery() {
 
-		String[] columnNames = { "customerId", "productId", "qtyProduct", "invoiceDate", "invoiceTime" };
+		String[] columnNames = { "Customer ID", "Product ID", "Product Quantity", "Date Issued", "Time Issued" };
 
 		Connection connection = null;
 		Statement statement = null;
@@ -214,10 +214,12 @@ public class QueryInvoiceForm {
 			jtable.setFont(new Font("Serif", Font.PLAIN, 15));
 
 		} // end try
+		
 		catch (SQLException sqlException) {
 			sqlException.printStackTrace();
 			System.exit(1);
 		} // end catch
+		
 		finally // ensure statement and connection are closed properly
 		{
 			try {
@@ -229,6 +231,7 @@ public class QueryInvoiceForm {
 				System.exit(1);
 			} // end catch
 		} // end finally
+		
 	}// end getQuery
 
 	/*-----------------------------------------------------------add Button----------------------------------------------------------*/

@@ -181,7 +181,7 @@ public class QueryCustomerForm {
 
 	public void getQuery() {
 
-		String[] columnNames = { "Customer ID", "First Name", "LastName", "Address", "Phone Number" };
+		String[] columnNames = { "Customer ID", "First Name", "Surname", "Address", "Phone Number" };
 
 		Connection connection = null;
 		Statement statement = null;

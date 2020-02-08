@@ -172,7 +172,7 @@ public class QueryProductForm {
 
 	public void getQuery() {
 
-		String[] columnNames = { "Product ID", "Product Name", "Description", "Price" };
+		String[] columnNames = { "Product ID", "Product Name", "Description", "Price (\u20ac)" };
 
 		Connection connection = null;
 		Statement statement = null;
