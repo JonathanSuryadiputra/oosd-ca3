@@ -40,7 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class QueryInvoiceForm {
-
+	// variables
 	private JPanel queryInvoiceFormPanel = new JPanel();
 
 	private final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -55,8 +55,8 @@ public class QueryInvoiceForm {
 	private JPanel searchPanel = new JPanel();
 	final JTextField searchBarField;
 	private DefaultTableModel model;
+	
 	// constructor
-
 	public QueryInvoiceForm() {
 
 		getQuery();
@@ -156,10 +156,13 @@ public class QueryInvoiceForm {
 		queryInvoiceFormPanel.setBackground(Color.WHITE);
 	}// end constructor
 
+	
+	// getJPanel
 	public JPanel getJPanel() {
 		return queryInvoiceFormPanel;
 	}
 
+	// getQuery
 	public void getQuery() {
 
 		String[] columnNames = { "Customer ID", "Product ID", "Product Quantity", "Date Issued", "Time Issued" };
@@ -239,7 +242,7 @@ public class QueryInvoiceForm {
 
 		// JFrame class
 		public class AddInvoiceForm extends JFrame {
-
+			// variables 
 			static final String DATABASE_URL = "jdbc:mysql://localhost/purchases";
 			static final String UserName_SQL = "root";
 			static final String Password_SQL = "password";
@@ -471,6 +474,8 @@ public class QueryInvoiceForm {
 	private class updateButtonHandler implements ActionListener {
 		class UpdateInvoiceForm extends JFrame {
 
+			
+			// variables
 			int selectedRowIndex = jtable.getSelectedRow();
 
 			String customerId = model.getValueAt(selectedRowIndex, 0).toString();

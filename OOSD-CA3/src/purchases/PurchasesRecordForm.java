@@ -39,6 +39,7 @@ import javax.swing.table.TableRowSorter;
 
 public class PurchasesRecordForm {
 
+	// initilize variable
 	private JPanel RecentPurchasesFormPanel = new JPanel();
 
 	private final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -137,11 +138,11 @@ public class PurchasesRecordForm {
 
 		RecentPurchasesFormPanel.setBackground(Color.WHITE);
 	}
-
+	//getJPanel
 	public JPanel getJPanel() {
 		return RecentPurchasesFormPanel;
 	}
-
+	//getQuery
 	public void getQuery() {
 
 		String[] columnNames = { "First Name", "Surname", "Product Name", "Price (\u20ac)", "Quantity", "Total Price (\u20ac)", "Purchase Date", "Purchase Time" };
@@ -153,7 +154,8 @@ public class PurchasesRecordForm {
 			connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
 			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
-					"select firstName, lastName, productName, price, qtyProduct, (price * qtyProduct), invoiceDate, invoiceTime from customer inner join invoice on customer.customerId = invoice.customerId inner join product on invoice.productId = product.productId;");
+					"select firstName, lastName, productName, price, qtyProduct, (price * qtyProduct), invoiceDate, invoiceTime from"
+					+ " customer inner join invoice on customer.customerId = invoice.customerId inner join product on invoice.productId = product.productId;");
 
 			ResultSetMetaData metaData = resultSet.getMetaData();
 
@@ -179,6 +181,7 @@ public class PurchasesRecordForm {
 				}
 			};
 			;
+			// set up the interface
 			jtable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 			jtable.setPreferredScrollableViewportSize(new Dimension(1230, 450));
 			JScrollPane scrollPane = new JScrollPane(jtable);

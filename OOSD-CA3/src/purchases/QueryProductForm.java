@@ -39,7 +39,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 public class QueryProductForm {
-
+	// variables
 	private JPanel queryProductFormPanel = new JPanel();
 
 	private final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -165,11 +165,11 @@ public class QueryProductForm {
 
 		queryProductFormPanel.setBackground(Color.WHITE);
 	}
-
+	// getJPanel
 	public JPanel getJPanel() {
 		return queryProductFormPanel;
 	}
-
+	// getQuery
 	public void getQuery() {
 
 		String[] columnNames = { "Product ID", "Product Name", "Description", "Price (\u20ac)" };
@@ -207,6 +207,7 @@ public class QueryProductForm {
 				}
 			};
 			;
+			// set interface
 			jtable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 			jtable.setPreferredScrollableViewportSize(new Dimension(1230, 450));
 			JScrollPane scrollPane = new JScrollPane(jtable);
@@ -404,6 +405,7 @@ public class QueryProductForm {
 
 	private class updateButtonHandler implements ActionListener {
 		class UpdateProductForm extends JFrame {
+			// variables
 			JTextField productNameField = new JTextField(10);
 			JTextField descriptionField = new JTextField(10);
 			JTextField priceField = new JTextField(10);
