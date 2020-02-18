@@ -51,8 +51,8 @@ public class QueryCustomerForm {
 	private JPanel panel = new JPanel();
 	private JPanel bottomPanel = new JPanel();
 	private JPanel jtablePanel = new JPanel();
-	private JPanel searchPanel = new JPanel();
 	final JTextField searchBarField;
+	Border topPadding;
 
 	private JTable jtable;
 	private DefaultTableModel model;
@@ -75,13 +75,10 @@ public class QueryCustomerForm {
 
 		deleteButtonHandler deleteHandler = new deleteButtonHandler();
 		deleteButton.addActionListener(deleteHandler);
-
+		
 		// set up table search bar and sorter
 		final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
 		jtable.setRowSorter(sorter);
-
-		searchPanel.setLayout(new FlowLayout());
-		searchPanel.setBackground(Color.WHITE);
 
 		searchBarField = new JTextField(
 				"Enter query here (Click on the field to clear it, then press Enter to clear query)");
@@ -119,25 +116,27 @@ public class QueryCustomerForm {
 
 		ClearFieldHandler clickClear = new ClearFieldHandler();
 		searchBarField.addMouseListener(clickClear);
-		searchPanel.add(searchBarField);
 
+		topPadding = BorderFactory.createEmptyBorder(-15, 0, 0, 0);
+		topPanel.setLayout(new BorderLayout());
+		topPanel.setBorder(topPadding);
+		
 		/* add components */
 		topPanel.add(topicLabel);
+		topPanel.add(searchBarField);
 		panel.add(jtablePanel);
 		bottomPanel.add(addButton);
 		bottomPanel.add(new JLabel("                   "));
 		bottomPanel.add(updateButton);
 		bottomPanel.add(new JLabel("                   "));
 		bottomPanel.add(deleteButton);
-		bottomPanel.add(new JLabel("                   "));
 		queryCustomerFormPanel.add(topPanel);
-		queryCustomerFormPanel.add(searchPanel);
 		queryCustomerFormPanel.add(panel);
 		queryCustomerFormPanel.add(bottomPanel);
 
 		/* set Style */
-		Font topicFont = new Font("Serif", Font.BOLD, 25);
-		Font buttonFont = new Font("Serif", Font.BOLD, 15);
+		Font topicFont = new Font("Calibri", Font.BOLD, 25);
+		Font buttonFont = new Font("Calibri", Font.BOLD, 15);
 		Border formBorder = BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3);
 		Dimension buttonSize = new Dimension(200, 50);
 
@@ -224,13 +223,14 @@ public class QueryCustomerForm {
 			jtable.getColumnModel().getColumn(0).setPreferredWidth(150);
 			jtable.getColumnModel().getColumn(1).setPreferredWidth(250);
 			jtable.getColumnModel().getColumn(2).setPreferredWidth(250);
-			jtable.getColumnModel().getColumn(3).setPreferredWidth(400);
-			jtable.getColumnModel().getColumn(4).setPreferredWidth(400);
+			jtable.getColumnModel().getColumn(3).setPreferredWidth(500);
+			jtable.getColumnModel().getColumn(4).setPreferredWidth(250);
 			jtable.setAutoResizeMode(jtable.AUTO_RESIZE_LAST_COLUMN);
 			jtable.setBackground(Color.white);
 			jtable.setForeground(Color.black);
 			jtable.setRowHeight(30);
-			jtable.setFont(new Font("Serif", Font.PLAIN, 15));
+			jtable.getTableHeader().setFont(new Font("Calibri", Font.BOLD, 15));
+			jtable.setFont(new Font("Calibri", Font.PLAIN, 13));
 
 		} // end try
 		catch (SQLException sqlException) {
@@ -267,7 +267,7 @@ public class QueryCustomerForm {
 			JTextField lastNameField = new JTextField();
 			JTextField addressField = new JTextField();
 			JTextField phoneNumField = new JTextField();
-			JButton submitButton = new JButton("Add Customer");
+			JButton submitButton = new JButton("Add Record");
 			JButton clearButton = new JButton("Clear Form");
 			JPanel form = new JPanel();
 			JPanel buttons = new JPanel();
@@ -281,8 +281,8 @@ public class QueryCustomerForm {
 
 				getContentPane().setLayout(new BorderLayout());
 
-				form.setLayout(new GridLayout(11, 1));
-				padding1 = BorderFactory.createEmptyBorder(10, 30, -40, 30); // form panel padding
+				form.setLayout(new GridLayout(8, 1));
+				padding1 = BorderFactory.createEmptyBorder(10, 30, 10, 30); // form panel padding
 				form.setBorder(padding1);
 
 				// Add first name label and text field to frame
@@ -302,7 +302,7 @@ public class QueryCustomerForm {
 				form.add(phoneNumField);
 
 				// Add submit button to frame
-				padding2 = BorderFactory.createEmptyBorder(0, 0, 20, 0); // button panel padding
+				padding2 = BorderFactory.createEmptyBorder(5, 0, 20, 0); // button panel padding
 				buttons.setBorder(padding2);
 				buttons.add(submitButton);
 
@@ -421,7 +421,7 @@ public class QueryCustomerForm {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			AddCustomerForm customerForm = new AddCustomerForm("Customer Form");
-			customerForm.setSize(275, 350);
+			customerForm.setSize(300, 400);
 			customerForm.setLocation(400, 300);
 			customerForm.setLocationRelativeTo(null);
 			customerForm.setVisible(true);
@@ -528,8 +528,7 @@ public class QueryCustomerForm {
 				form.add(phoneNumField);
 
 				button = new JPanel();
-				button.setLayout(new GridLayout(1, 1));
-				save = new JButton("Save");
+				save = new JButton("Save Changes");
 				save.addActionListener(new ActionListener() {
 					String newFirstName;
 					String newLastName;
@@ -599,7 +598,8 @@ public class QueryCustomerForm {
 						} // end else
 					}
 				});
-				padding2 = BorderFactory.createEmptyBorder(10, 50, 25, 50);
+				padding2 = BorderFactory.createEmptyBorder(10, 45, 25, 45);
+				button.setLayout(new GridLayout(1, 1));
 				button.setBorder(padding2);
 				button.add(save);
 

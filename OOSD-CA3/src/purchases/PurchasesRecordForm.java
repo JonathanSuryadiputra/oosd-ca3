@@ -30,6 +30,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.border.Border;
@@ -51,11 +52,11 @@ public class PurchasesRecordForm {
 	private JPanel panel = new JPanel();
 	private JPanel bottomPanel = new JPanel();
 	private JPanel jtablePanel = new JPanel();
-	private JPanel searchPanel = new JPanel();
 	final JTextField searchBarField;
 
 	private JTable jtable;
 	private DefaultTableModel model;
+	Border topPadding;
 
 	// constructor
 	public PurchasesRecordForm() {
@@ -67,9 +68,6 @@ public class PurchasesRecordForm {
 		// set up table search bar and sorter
 				final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
 				jtable.setRowSorter(sorter);
-
-				searchPanel.setLayout(new FlowLayout());
-				searchPanel.setBackground(Color.WHITE);
 
 				searchBarField = new JTextField(
 						"Enter query here (Click on the field to clear it, then press Enter to clear query)");
@@ -104,19 +102,22 @@ public class PurchasesRecordForm {
 
 				ClearFieldHandler clickClear = new ClearFieldHandler();
 				searchBarField.addMouseListener(clickClear);
-				searchPanel.add(searchBarField);
+				
+				topPadding = BorderFactory.createEmptyBorder(-15, 0, 0, 0);
+				topPanel.setLayout(new BorderLayout());
+				topPanel.setBorder(topPadding);
 
 		/* add components */
 		topPanel.add(topicLabel);
+		topPanel.add(searchBarField);
 		panel.add(jtablePanel);
 		RecentPurchasesFormPanel.add(topPanel);
-		RecentPurchasesFormPanel.add(searchPanel);
 		RecentPurchasesFormPanel.add(panel);
 		RecentPurchasesFormPanel.add(bottomPanel);
 
 		/* set Style */
-		Font topicFont = new Font("Serif", Font.BOLD, 25);
-		Font buttonFont = new Font("Serif", Font.BOLD, 15);
+		Font topicFont = new Font("Calibri", Font.BOLD, 25);
+		Font buttonFont = new Font("Calibri", Font.BOLD, 15);
 		Border formBorder = BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3);
 		Dimension buttonSize = new Dimension(200, 50);
 
@@ -199,7 +200,8 @@ public class PurchasesRecordForm {
 			jtable.setBackground(Color.white);
 			jtable.setForeground(Color.black);
 			jtable.setRowHeight(30);
-			jtable.setFont(new Font("Serif", Font.PLAIN, 15));
+			jtable.getTableHeader().setFont(new Font("Calibri", Font.BOLD, 15));
+			jtable.setFont(new Font("Calibri", Font.PLAIN, 13));
 
 		} // end try
 		

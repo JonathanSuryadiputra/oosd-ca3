@@ -42,9 +42,9 @@ public class MainFrame extends JFrame {
 		setTitle("Purchase System Demo : OOSD Y2 Project");
 
 		/* variable */
-		Font topicFont = new Font("Serif", Font.BOLD, 22);
-		Font comboBoxFont = new Font("Serif", Font.BOLD, 18);
-		Font someTextFont = new Font("Serif", Font.BOLD, 30);
+		Font topicFont = new Font("Calibri", Font.BOLD, 22);
+		Font comboBoxFont = new Font("Calibri", Font.PLAIN, 18);
+		Font someTextFont = new Font("Calibri", Font.BOLD, 30);
 		Dimension comboBoxSize = new Dimension(500, 30);
 		final JLabel topic = new JLabel("Purchases System");
 

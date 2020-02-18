@@ -51,8 +51,8 @@ public class QueryProductForm {
 	private JPanel panel = new JPanel();
 	private JPanel bottomPanel = new JPanel();
 	private JPanel jtablePanel = new JPanel();
-	private JPanel searchPanel = new JPanel();
 	final JTextField searchBarField;
+	Border topPadding;
 
 	private JTable jtable;
 	private DefaultTableModel model;
@@ -77,9 +77,6 @@ public class QueryProductForm {
 		// set up table search bar and sorter
 		final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
 		jtable.setRowSorter(sorter);
-
-		searchPanel.setLayout(new FlowLayout());
-		searchPanel.setBackground(Color.WHITE);
 
 		searchBarField = new JTextField(
 				"Enter query here (Click on the field to clear it, then press Enter to clear query)");
@@ -114,10 +111,14 @@ public class QueryProductForm {
 
 		ClearFieldHandler clickClear = new ClearFieldHandler();
 		searchBarField.addMouseListener(clickClear);
-		searchPanel.add(searchBarField);
+		
+		topPadding = BorderFactory.createEmptyBorder(-15, 0, 0, 0);
+		topPanel.setLayout(new BorderLayout());
+		topPanel.setBorder(topPadding);
 
 		/* add components */
 		topPanel.add(topicLabel);
+		topPanel.add(searchBarField);
 		panel.add(jtablePanel);
 		bottomPanel.add(addButton);
 		bottomPanel.add(new JLabel("                   "));
@@ -125,13 +126,12 @@ public class QueryProductForm {
 		bottomPanel.add(new JLabel("                   "));
 		bottomPanel.add(deleteButton);
 		queryProductFormPanel.add(topPanel);
-		queryProductFormPanel.add(searchPanel);
 		queryProductFormPanel.add(panel);
 		queryProductFormPanel.add(bottomPanel);
 
 		/* set Style */
-		Font topicFont = new Font("Serif", Font.BOLD, 25);
-		Font buttonFont = new Font("Serif", Font.BOLD, 15);
+		Font topicFont = new Font("Calibri", Font.BOLD, 25);
+		Font buttonFont = new Font("Calibri", Font.BOLD, 15);
 		Border formBorder = BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3);
 		Dimension buttonSize = new Dimension(200, 50);
 
@@ -221,7 +221,8 @@ public class QueryProductForm {
 			jtable.setBackground(Color.white);
 			jtable.setForeground(Color.black);
 			jtable.setRowHeight(30);
-			jtable.setFont(new Font("Serif", Font.PLAIN, 15));
+			jtable.getTableHeader().setFont(new Font("Calibri", Font.BOLD, 15));
+			jtable.setFont(new Font("Calibri", Font.PLAIN, 13));
 
 			jtable.repaint();
 		} // end try
@@ -250,7 +251,7 @@ public class QueryProductForm {
 			private JTextField productNameField = new JTextField();
 			private JTextField descriptionField = new JTextField();
 			private JTextField priceField = new JTextField();
-			private JButton submitButton = new JButton("Add Product");
+			private JButton submitButton = new JButton("Add Record");
 			private JButton clearButton = new JButton("Clear Form");
 			JPanel form = new JPanel();
 			JPanel buttons = new JPanel();
@@ -262,9 +263,9 @@ public class QueryProductForm {
 				// Set title for frame and choose layout
 				super(title);
 				getContentPane().setLayout(new BorderLayout());
-				form.setLayout(new GridLayout(8, 2));
+				form.setLayout(new GridLayout(6, 1));
 
-				padding1 = BorderFactory.createEmptyBorder(10, 30, -40, 30);
+				padding1 = BorderFactory.createEmptyBorder(10, 30, 10, 30);
 				form.setBorder(padding1);
 
 				// Add Product Name label and text field to frame
@@ -279,9 +280,8 @@ public class QueryProductForm {
 				form.add(new JLabel("Price " + "\u20ac"));
 				form.add(priceField);
 
-				padding2 = BorderFactory.createEmptyBorder(0, 30, 20, 30);
+				padding2 = BorderFactory.createEmptyBorder(5, 0, 20, 0);
 				buttons.setBorder(padding2);
-				buttons.setLayout(new GridLayout(1, 2));
 				// Add submit button to frame
 				buttons.add(submitButton);
 
@@ -393,7 +393,7 @@ public class QueryProductForm {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			AddProductForm productForm = new AddProductForm("Product Form");
-			productForm.setSize(275, 350);
+			productForm.setSize(300, 350);
 			productForm.setLocation(400, 300);
 			productForm.setLocationRelativeTo(null);
 			productForm.setVisible(true);
@@ -409,9 +409,9 @@ public class QueryProductForm {
 			JTextField productNameField = new JTextField(10);
 			JTextField descriptionField = new JTextField(10);
 			JTextField priceField = new JTextField(10);
-			JButton save = new JButton("Save");
+			JButton save = new JButton("Save Changes");
 			JPanel form = new JPanel();
-			JPanel buttonPanel = new JPanel();
+			JPanel button = new JPanel();
 			Border padding1;
 			Border padding2;
 
@@ -431,7 +431,7 @@ public class QueryProductForm {
 				descriptionField.setText(description);
 				priceField.setText(price);
 
-				padding1 = BorderFactory.createEmptyBorder(10, 30, 15, 30); // padding for main form panel
+				padding1 = BorderFactory.createEmptyBorder(10, 30, 10, 30); // padding for main form panel
 				form.setBorder(padding1);
 				form.setLayout(new GridLayout(6, 1));
 				form.add(new JLabel("Product Name"));
@@ -441,7 +441,6 @@ public class QueryProductForm {
 				form.add(new JLabel("Price " + "\u20ac"));
 				form.add(priceField);
 
-				buttonPanel.setLayout(new GridLayout(1, 1));
 				save.addActionListener(new ActionListener() {
 					String newProductName;
 					String newDescription;
@@ -501,12 +500,13 @@ public class QueryProductForm {
 					}
 
 				});
-				padding2 = BorderFactory.createEmptyBorder(20, 40, 20, 40); // padding for button panel
-				buttonPanel.setBorder(padding2);
-				buttonPanel.add(save);
+				padding2 = BorderFactory.createEmptyBorder(10, 45, 25, 45); // padding for button panel
+				button.setLayout(new GridLayout(1, 1));
+				button.setBorder(padding2);
+				button.add(save);
 
 				add(form, BorderLayout.CENTER);
-				add(buttonPanel, BorderLayout.SOUTH);
+				add(button, BorderLayout.SOUTH);
 
 			}
 		}
@@ -514,7 +514,7 @@ public class QueryProductForm {
 		public void actionPerformed(ActionEvent e) {
 			if (jtable.getSelectedRow() != -1) {
 				UpdateProductForm productForm = new UpdateProductForm();
-				productForm.setSize(275, 350);
+				productForm.setSize(300, 350);
 				productForm.setLocation(250, 250);
 				productForm.setLocationRelativeTo(null);
 				productForm.setVisible(true);

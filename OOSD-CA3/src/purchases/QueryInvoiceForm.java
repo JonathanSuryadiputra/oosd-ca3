@@ -52,9 +52,10 @@ public class QueryInvoiceForm {
 	private JPanel bottomPanel = new JPanel();
 	private JPanel jtablePanel = new JPanel();
 	private JTable jtable;
-	private JPanel searchPanel = new JPanel();
 	final JTextField searchBarField;
 	private DefaultTableModel model;
+	
+	Border topPadding;
 	
 	// constructor
 	public QueryInvoiceForm() {
@@ -75,9 +76,6 @@ public class QueryInvoiceForm {
 		// set up table search bar and sorter
 		final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
 		jtable.setRowSorter(sorter);
-
-		searchPanel.setLayout(new FlowLayout());
-		searchPanel.setBackground(Color.WHITE);
 
 		searchBarField = new JTextField(
 				"Enter query here (Click on the field to clear it, then press Enter to clear query)");
@@ -112,10 +110,14 @@ public class QueryInvoiceForm {
 
 		ClearFieldHandler clickClear = new ClearFieldHandler();
 		searchBarField.addMouseListener(clickClear);
-		searchPanel.add(searchBarField);
 
+		topPadding = BorderFactory.createEmptyBorder(-15, 0, 0, 0);
+		topPanel.setLayout(new BorderLayout());
+		topPanel.setBorder(topPadding);
+		
 		/* add components */
 		topPanel.add(topicLabel);
+		topPanel.add(searchBarField);
 		panel.add(jtablePanel);
 		bottomPanel.add(addButton);
 		bottomPanel.add(new JLabel("                   "));
@@ -123,13 +125,12 @@ public class QueryInvoiceForm {
 		bottomPanel.add(new JLabel("                   "));
 		bottomPanel.add(deleteButton);
 		queryInvoiceFormPanel.add(topPanel);
-		queryInvoiceFormPanel.add(searchPanel);
 		queryInvoiceFormPanel.add(panel);
 		queryInvoiceFormPanel.add(bottomPanel);
 
 		/* set Style */
-		Font topicFont = new Font("Serif", Font.BOLD, 25);
-		Font buttonFont = new Font("Serif", Font.BOLD, 15);
+		Font topicFont = new Font("Calibri", Font.BOLD, 25);
+		Font buttonFont = new Font("Calibri", Font.BOLD, 15);
 		Border formBorder = BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3);
 		Dimension buttonSize = new Dimension(200, 50);
 
@@ -214,7 +215,8 @@ public class QueryInvoiceForm {
 			jtable.setBackground(Color.white);
 			jtable.setForeground(Color.black);
 			jtable.setRowHeight(30);
-			jtable.setFont(new Font("Serif", Font.PLAIN, 15));
+			jtable.getTableHeader().setFont(new Font("Calibri", Font.BOLD, 15));
+			jtable.setFont(new Font("Calibri", Font.PLAIN, 13));
 
 		} // end try
 		
@@ -357,8 +359,7 @@ public class QueryInvoiceForm {
 				form.add(new JLabel("Quantity"));
 				form.add(qtyProductField);
 
-				button.setLayout(new GridLayout(1, 2));
-				padding2 = BorderFactory.createEmptyBorder(0, 10, 20, 10); // padding for button panel
+				padding2 = BorderFactory.createEmptyBorder(5, 0, 20, 0); // padding for button panel
 				button.setBorder(padding2);
 
 				SubmitButtonHandler submitHandler = new SubmitButtonHandler();
@@ -463,7 +464,7 @@ public class QueryInvoiceForm {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			AddInvoiceForm invoiceForm = new AddInvoiceForm("Invoice Form");
-			invoiceForm.setSize(275, 350);
+			invoiceForm.setSize(300, 350);
 			invoiceForm.setLocation(400, 300);
 			invoiceForm.setLocationRelativeTo(null);
 			invoiceForm.setVisible(true);
@@ -652,7 +653,7 @@ public class QueryInvoiceForm {
 				buttonPanel.setLayout(new GridLayout(1, 1));
 
 				buttonPanel.add(save);
-				padding2 = BorderFactory.createEmptyBorder(0, 40, 10, 40);
+				padding2 = BorderFactory.createEmptyBorder(10, 45, 25, 45);
 				buttonPanel.setBorder(padding2);
 
 				add(form, BorderLayout.CENTER);
