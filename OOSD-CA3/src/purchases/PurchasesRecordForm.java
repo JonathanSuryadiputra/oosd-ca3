@@ -63,7 +63,7 @@ public class PurchasesRecordForm {
 
 		getQuery();
 
-		JLabel topicLabel = new JLabel("           Purchase Records Table           ");
+		JLabel topicLabel = new JLabel("           Purchases Record Table           ");
 		
 		// set up table search bar and sorter
 				final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
