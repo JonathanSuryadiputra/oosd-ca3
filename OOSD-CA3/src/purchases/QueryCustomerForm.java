@@ -249,7 +249,7 @@ public class QueryCustomerForm {
 			} // end catch
 		} // end finally
 	}// end getQuery
-
+	
 	/*-----------------------------------------------------------add Button----------------------------------------------------------*/
 	private class addButtonHandler implements ActionListener {
 
@@ -623,9 +623,7 @@ public class QueryCustomerForm {
 		}// end actionPerformed
 
 	}// end update button handler
-	
-	/*-----------------------------------------------------------Refresh JTable----------------------------------------------------------*/
-	
+		
 	/*-----------------------------------------------------------Refresh JTABLE----------------------------------------------------------*/
 	private void refreshJTable() {
 

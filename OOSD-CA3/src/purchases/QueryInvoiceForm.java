@@ -135,15 +135,19 @@ public class QueryInvoiceForm {
 		Dimension buttonSize = new Dimension(200, 50);
 
 		topicLabel.setFont(topicFont);
+		
 		addButton.setFont(buttonFont);
 		updateButton.setFont(buttonFont);
 		deleteButton.setFont(buttonFont);
+		
 		addButton.setBackground(Color.lightGray);
 		updateButton.setBackground(Color.lightGray);
 		deleteButton.setBackground(Color.lightGray);
+		
 		addButton.setPreferredSize(buttonSize);
 		updateButton.setPreferredSize(buttonSize);
 		deleteButton.setPreferredSize(buttonSize);
+		
 		jtablePanel.setPreferredSize(new Dimension(1260, 500));
 		jtablePanel.setBorder(formBorder);
 		topPanel.setLayout(new FlowLayout(1, 0, 30));
