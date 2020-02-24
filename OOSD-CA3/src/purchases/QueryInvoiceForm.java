@@ -38,6 +38,7 @@ import javax.swing.table.TableRowSorter;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class QueryInvoiceForm {
 	// variables
@@ -59,7 +60,7 @@ public class QueryInvoiceForm {
 	
 	// constructor
 	public QueryInvoiceForm() {
-
+		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 		getQuery();
 		JLabel topicLabel = new JLabel("           Query Invoice Table           ");
 		JButton addButton = new JButton("Create");
@@ -178,6 +179,7 @@ public class QueryInvoiceForm {
 		try {
 			connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
 			statement = connection.createStatement();
+			
 			ResultSet resultSet = statement
 					.executeQuery("SELECT customerID, productId, qtyProduct, invoiceDate, invoiceTime FROM invoice");
 
@@ -416,7 +418,9 @@ public class QueryInvoiceForm {
 							SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
 							SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss");
 							Date d = new Date();
+							TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 
+							
 							Connection connection = null;
 							Statement statement = null;
 
