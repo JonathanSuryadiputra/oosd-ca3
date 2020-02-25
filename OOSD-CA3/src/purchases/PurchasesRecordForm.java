@@ -179,7 +179,7 @@ public class PurchasesRecordForm {
 			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
 					"select firstName, lastName, productName, price, qtyProduct, (price * qtyProduct), invoiceDate, invoiceTime from"
-					+ " customer inner join invoice on customer.customerId = invoice.customerId inner join product on invoice.productId = product.productId;");
+					+ " customer inner join invoice on customer.customerId = invoice.customerId inner join product on invoice.productId = product.productId ORDER BY invoiceDate DESC, invoiceTime DESC;");
 
 			ResultSetMetaData metaData = resultSet.getMetaData();
 
@@ -311,7 +311,7 @@ public class PurchasesRecordForm {
 			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
 					"select firstName, lastName, productName, price, qtyProduct, (price * qtyProduct), invoiceDate, invoiceTime from"
-							+ " customer inner join invoice on customer.customerId = invoice.customerId inner join product on invoice.productId = product.productId ORDER BY firstName ASC;");
+							+ " customer inner join invoice on customer.customerId = invoice.customerId inner join product on invoice.productId = product.productId ORDER BY invoiceDate DESC, invoiceTime DESC;");
 			ResultSetMetaData metaData = resultSet.getMetaData(); /* create for the columns count */
 			int numberOfColumns = metaData.getColumnCount(); /* get the number of columns for Query Table */
 			int numberOfRows = getJTableNumberOfRows(); /* get the number of rows for Query Table */
@@ -363,7 +363,7 @@ public class PurchasesRecordForm {
 			connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
 			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) as numberOfRows FROM "
-					+ "customer inner join invoice on customer.customerId = invoice.customerId inner join product on invoice.productId = product.productId;");
+					+ "customer inner join invoice on customer.customerId = invoice.customerId inner join product on invoice.productId = product.productId ORDER BY invoiceDate DESC, invoiceTime DESC;");
 			resultSet.next();
 			count = resultSet.getInt("numberOfRows");
 			resultSet.close();
