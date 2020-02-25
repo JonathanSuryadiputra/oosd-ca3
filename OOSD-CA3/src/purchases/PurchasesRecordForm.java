@@ -38,6 +38,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+/**
+ * 
+ * @author weihao, jonathan, chi
+ *
+ */
 public class PurchasesRecordForm {
 
 	// initilize variable
@@ -59,11 +64,14 @@ public class PurchasesRecordForm {
 	Border topPadding;
 
 	// constructor
+	/**
+	 * the structure of the form
+	 */
 	public PurchasesRecordForm() {
 
 		getQuery();
 
-		JLabel topicLabel = new JLabel("           Purchases Record Table           ");
+		JLabel topicLabel = new JLabel("Purchases Record Table     ");
 		JButton refreshButton = new JButton("Refresh");
 		
 		refreshButtonHandler refreshHandler = new refreshButtonHandler();
@@ -76,7 +84,7 @@ public class PurchasesRecordForm {
 				searchBarField = new JTextField(
 						"Enter query here (Click on the field to clear it, then press Enter to clear query)");
 				searchBarField.setHorizontalAlignment(JTextField.CENTER);
-				searchBarField.setColumns(80);
+				searchBarField.setPreferredSize(new Dimension(500, 40));
 
 				searchBarField.addKeyListener(new KeyListener() {
 					String query;
@@ -149,10 +157,16 @@ public class PurchasesRecordForm {
 		RecentPurchasesFormPanel.setBackground(Color.WHITE);
 	}
 	//getJPanel
+	/**
+	 * return the panel for mainframe
+	 */
 	public JPanel getJPanel() {
 		return RecentPurchasesFormPanel;
 	}
 	//getQuery
+	/**
+	 * generate the JTable and list the data
+	 */
 	public void getQuery() {
 
 		String[] columnNames = { "First Name", "Surname", "Product Name", "Price (\u20ac)", "Quantity", "Total Price (\u20ac)", "Purchase Date", "Purchase Time" };
@@ -165,12 +179,13 @@ public class PurchasesRecordForm {
 			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
 					"select firstName, lastName, productName, price, qtyProduct, (price * qtyProduct), invoiceDate, invoiceTime from"
-					+ " customer inner join invoice on customer.customerId = invoice.customerId inner join product on invoice.productId = product.productId;");
+					+ " customer inner join invoice on customer.customerId = invoice.customerId inner join product on invoice.productId = product.productId ORDER BY invoiceDate DESC, invoiceTime DESC;");
 
 			ResultSetMetaData metaData = resultSet.getMetaData();
 
 			int numberOfColumns = metaData.getColumnCount();
-			Object[][] data = new Object[50][numberOfColumns];
+			int numberOfRows = getJTableNumberOfRows();
+			Object[][] data = new Object[numberOfRows][numberOfColumns];
 
 			int j = 0, k = 0;
 			while (resultSet.next()) {
@@ -269,6 +284,9 @@ public class PurchasesRecordForm {
 	}
 	
 	/*-----------------------------------------------------------refresh Button----------------------------------------------------------*/
+	/**
+	 * define the action of button to perform the refresh JTable function
+	 */
 	private class refreshButtonHandler implements ActionListener {
 
 		@Override
@@ -280,6 +298,9 @@ public class PurchasesRecordForm {
 	}
 	
 	/*-----------------------------------------------------------Refresh JTABLE----------------------------------------------------------*/
+	/**
+	 * refresh the Jtable to show the most updated data to user
+	 */
 	private void refreshJTable() {
 
 		Connection connection = null;
@@ -290,7 +311,7 @@ public class PurchasesRecordForm {
 			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
 					"select firstName, lastName, productName, price, qtyProduct, (price * qtyProduct), invoiceDate, invoiceTime from"
-							+ " customer inner join invoice on customer.customerId = invoice.customerId inner join product on invoice.productId = product.productId ORDER BY firstName ASC;");
+							+ " customer inner join invoice on customer.customerId = invoice.customerId inner join product on invoice.productId = product.productId ORDER BY invoiceDate DESC, invoiceTime DESC;");
 			ResultSetMetaData metaData = resultSet.getMetaData(); /* create for the columns count */
 			int numberOfColumns = metaData.getColumnCount(); /* get the number of columns for Query Table */
 			int numberOfRows = getJTableNumberOfRows(); /* get the number of rows for Query Table */
@@ -330,6 +351,9 @@ public class PurchasesRecordForm {
 	}// end refreshTable
 	
 	/*---------------------------------------------get Number of Rows from Database------------------------------------------------------*/
+	/**
+	 * count the current data and return the number of rows
+	 */
 	private int getJTableNumberOfRows() {
 
 		int count = 0; /* create a integer object for rows count */
@@ -339,7 +363,7 @@ public class PurchasesRecordForm {
 			connection = DriverManager.getConnection(DATABASE_URL, UserName_SQL, Password_SQL);
 			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) as numberOfRows FROM "
-					+ "customer inner join invoice on customer.customerId = invoice.customerId inner join product on invoice.productId = product.productId;");
+					+ "customer inner join invoice on customer.customerId = invoice.customerId inner join product on invoice.productId = product.productId ORDER BY invoiceDate DESC, invoiceTime DESC;");
 			resultSet.next();
 			count = resultSet.getInt("numberOfRows");
 			resultSet.close();

@@ -38,6 +38,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+/**
+ * 
+ * @author Weihao, Jonathan, Chi
+ *
+ */
 public class QueryProductForm {
 	// variables
 	private JPanel queryProductFormPanel = new JPanel();
@@ -58,11 +63,14 @@ public class QueryProductForm {
 	private DefaultTableModel model;
 
 	// constructor
+	/**
+	 * the structure of the form
+	 */
 	public QueryProductForm() {
 
 		getQuery();
 
-		JLabel topicLabel = new JLabel("           Query Product Table           ");
+		JLabel topicLabel = new JLabel("Query Product Table     ");
 		JButton addButton = new JButton("Create");
 		JButton updateButton = new JButton("Update");
 		JButton deleteButton = new JButton("Delete");
@@ -81,7 +89,7 @@ public class QueryProductForm {
 		searchBarField = new JTextField(
 				"Enter query here (Click on the field to clear it, then press Enter to clear query)");
 		searchBarField.setHorizontalAlignment(JTextField.CENTER);
-		searchBarField.setColumns(80);
+		searchBarField.setPreferredSize(new Dimension(500, 40));
 
 		searchBarField.addKeyListener(new KeyListener() {
 			String query;
@@ -166,10 +174,16 @@ public class QueryProductForm {
 		queryProductFormPanel.setBackground(Color.WHITE);
 	}
 	// getJPanel
+	/**
+	 * return the panel for mainframe
+	 */
 	public JPanel getJPanel() {
 		return queryProductFormPanel;
 	}
 	// getQuery
+	/**
+	 * generate the JTable and list the data
+	 */
 	public void getQuery() {
 
 		String[] columnNames = { "Product ID", "Product Name", "Description", "Price (\u20ac)" };
@@ -186,7 +200,8 @@ public class QueryProductForm {
 			ResultSetMetaData metaData = resultSet.getMetaData();
 
 			int numberOfColumns = metaData.getColumnCount();
-			Object[][] data = new Object[50][numberOfColumns];
+			int numberOfRows = getJTableNumberOfRows();
+			Object[][] data = new Object[numberOfRows][numberOfColumns];
 
 			int j = 0, k = 0;
 			while (resultSet.next()) {
@@ -244,6 +259,9 @@ public class QueryProductForm {
 	}// end getQuery
 
 	/*-----------------------------------------------------------add Button----------------------------------------------------------*/
+	/**
+	 * define the action of button to add a new data
+	 */
 	private class addButtonHandler implements ActionListener {
 
 		// JFrame class
@@ -402,7 +420,9 @@ public class QueryProductForm {
 	}// end addActionListener
 
 	/*-----------------------------------------------------------update Button----------------------------------------------------------*/
-
+	/**
+	 * define the action of button to update the data
+	 */
 	private class updateButtonHandler implements ActionListener {
 		class UpdateProductForm extends JFrame {
 			// variables
@@ -526,7 +546,9 @@ public class QueryProductForm {
 	}// end updateActionListener
 
 	/*-----------------------------------------------------------delete Button----------------------------------------------------------*/
-
+	/**
+	 * define the action of button to delete data
+	 */
 	private class deleteButtonHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (jtable.getSelectedRow() != -1) {
@@ -568,6 +590,9 @@ public class QueryProductForm {
 	}// end deleteActionListener
 
 	/*-----------------------------------------------------------Refresh JTABLE----------------------------------------------------------*/
+	/**
+	 * refresh the Jtable to show the most updated data to user
+	 */
 	private void refreshJTable() {
 
 		Connection connection = null;
@@ -617,6 +642,9 @@ public class QueryProductForm {
 	}// end refreshTable
 
 	/*-----------------------------------------------------------get Number of Rows from Database----------------------------------------------------------*/
+	/**
+	 * count the current data and return the number of rows
+	 */
 	private int getJTableNumberOfRows() {
 
 		int count = 0; /* create a integer object for rows count */
