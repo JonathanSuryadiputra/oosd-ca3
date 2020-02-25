@@ -38,6 +38,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+/**
+ * 
+ * @author weihao, jonathan, chi
+ *
+ */
 public class PurchasesRecordForm {
 
 	// initilize variable
@@ -59,11 +64,14 @@ public class PurchasesRecordForm {
 	Border topPadding;
 
 	// constructor
+	/**
+	 * the structure of the form
+	 */
 	public PurchasesRecordForm() {
 
 		getQuery();
 
-		JLabel topicLabel = new JLabel("           Purchases Record Table           ");
+		JLabel topicLabel = new JLabel("Purchases Record Table     ");
 		JButton refreshButton = new JButton("Refresh");
 		
 		refreshButtonHandler refreshHandler = new refreshButtonHandler();
@@ -76,7 +84,7 @@ public class PurchasesRecordForm {
 				searchBarField = new JTextField(
 						"Enter query here (Click on the field to clear it, then press Enter to clear query)");
 				searchBarField.setHorizontalAlignment(JTextField.CENTER);
-				searchBarField.setColumns(80);
+				searchBarField.setPreferredSize(new Dimension(500, 40));
 
 				searchBarField.addKeyListener(new KeyListener() {
 					String query;
@@ -149,10 +157,16 @@ public class PurchasesRecordForm {
 		RecentPurchasesFormPanel.setBackground(Color.WHITE);
 	}
 	//getJPanel
+	/**
+	 * return the panel for mainframe
+	 */
 	public JPanel getJPanel() {
 		return RecentPurchasesFormPanel;
 	}
 	//getQuery
+	/**
+	 * generate the JTable and list the data
+	 */
 	public void getQuery() {
 
 		String[] columnNames = { "First Name", "Surname", "Product Name", "Price (\u20ac)", "Quantity", "Total Price (\u20ac)", "Purchase Date", "Purchase Time" };
@@ -270,6 +284,9 @@ public class PurchasesRecordForm {
 	}
 	
 	/*-----------------------------------------------------------refresh Button----------------------------------------------------------*/
+	/**
+	 * define the action of button to perform the refresh JTable function
+	 */
 	private class refreshButtonHandler implements ActionListener {
 
 		@Override
@@ -281,6 +298,9 @@ public class PurchasesRecordForm {
 	}
 	
 	/*-----------------------------------------------------------Refresh JTABLE----------------------------------------------------------*/
+	/**
+	 * refresh the Jtable to show the most updated data to user
+	 */
 	private void refreshJTable() {
 
 		Connection connection = null;
@@ -331,6 +351,9 @@ public class PurchasesRecordForm {
 	}// end refreshTable
 	
 	/*---------------------------------------------get Number of Rows from Database------------------------------------------------------*/
+	/**
+	 * count the current data and return the number of rows
+	 */
 	private int getJTableNumberOfRows() {
 
 		int count = 0; /* create a integer object for rows count */
