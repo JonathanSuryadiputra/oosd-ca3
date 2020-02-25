@@ -170,7 +170,8 @@ public class PurchasesRecordForm {
 			ResultSetMetaData metaData = resultSet.getMetaData();
 
 			int numberOfColumns = metaData.getColumnCount();
-			Object[][] data = new Object[50][numberOfColumns];
+			int numberOfRows = getJTableNumberOfRows();
+			Object[][] data = new Object[numberOfRows][numberOfColumns];
 
 			int j = 0, k = 0;
 			while (resultSet.next()) {
