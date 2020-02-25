@@ -38,6 +38,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+/**
+ * 
+ * @author Weihao, Johnthan, Chi
+ *
+ */
 public class QueryCustomerForm {
 
 	private JPanel queryCustomerFormPanel = new JPanel();
@@ -56,13 +61,17 @@ public class QueryCustomerForm {
 
 	private JTable jtable;
 	private DefaultTableModel model;
+	
 
+	/**
+	 * the structure of the form
+	 */
 	// constructor
 	public QueryCustomerForm() {
 
 		getQuery();
 
-		JLabel topicLabel = new JLabel("           Query Customer Table           ");
+		JLabel topicLabel = new JLabel("Query Customer Table     ");
 		JButton addButton = new JButton("Create");
 		JButton updateButton = new JButton("Update");
 		JButton deleteButton = new JButton("Delete");
@@ -80,10 +89,9 @@ public class QueryCustomerForm {
 		final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
 		jtable.setRowSorter(sorter);
 
-		searchBarField = new JTextField(
-				"Enter query here (Click on the field to clear it, then press Enter to clear query)");
+		searchBarField = new JTextField("Enter query here (Click on the field to clear it, then press Enter to clear query)");
 		searchBarField.setHorizontalAlignment(JTextField.CENTER);
-		searchBarField.setColumns(80);
+		searchBarField.setPreferredSize(new Dimension(500, 40));
 
 		searchBarField.addKeyListener(new KeyListener() {
 			String query;
@@ -173,11 +181,17 @@ public class QueryCustomerForm {
 
 		queryCustomerFormPanel.setBackground(Color.WHITE);
 	}
-
+	
+	/**
+	 * return panel for the mainframe
+	 */
 	public JPanel getJPanel() {
 		return queryCustomerFormPanel;
 	}
-
+	
+	/**
+	 * generate a Jtable and list the database
+	 */
 	public void getQuery() {
 
 		String[] columnNames = { "Customer ID", "First Name", "Surname", "Address", "Phone Number" };
@@ -252,6 +266,9 @@ public class QueryCustomerForm {
 	}// end getQuery
 	
 	/*-----------------------------------------------------------add Button----------------------------------------------------------*/
+	/**
+	 * define the action of button to create a new data
+	 */
 	private class addButtonHandler implements ActionListener {
 
 		// JFrame class
@@ -430,6 +447,9 @@ public class QueryCustomerForm {
 	}// end addActionListener
 
 	/*-----------------------------------------------------------delete Button----------------------------------------------------------*/
+	/**
+	 * define the action of button to delete the data
+	 */
 	private class deleteButtonHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (jtable.getSelectedRow() != -1) {
@@ -471,6 +491,9 @@ public class QueryCustomerForm {
 	}// end addActionListener
 
 	/*-----------------------------------------------------------update Button----------------------------------------------------------*/
+	/**
+	 * define the action of button to update the data
+	 */
 	private class updateButtonHandler implements ActionListener {
 		// JFrame class
 		class UpdateCustomerForm extends JFrame {
@@ -626,6 +649,9 @@ public class QueryCustomerForm {
 	}// end update button handler
 		
 	/*-----------------------------------------------------------Refresh JTABLE----------------------------------------------------------*/
+	/**
+	 * refresh the Jtable to show the most updated data to user
+	 */
 	private void refreshJTable() {
 
 		Connection connection = null;
@@ -675,6 +701,9 @@ public class QueryCustomerForm {
 	}// end refreshTable
 	
 	/*---------------------------------------------get Number of Rows from Database------------------------------------------------------*/
+	/**
+	 * count the data and return the quantity of rows
+	 */
 	private int getJTableNumberOfRows() {
 
 		int count = 0; /* create a integer object for rows count */
