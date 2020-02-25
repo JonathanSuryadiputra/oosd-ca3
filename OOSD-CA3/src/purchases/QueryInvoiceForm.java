@@ -40,6 +40,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+/**
+ * 
+ * @author Weihao, Jonathan, Chi
+ *
+ */
 public class QueryInvoiceForm {
 	// variables
 	private JPanel queryInvoiceFormPanel = new JPanel();
@@ -59,10 +64,13 @@ public class QueryInvoiceForm {
 	Border topPadding;
 	
 	// constructor
+	/**
+	 * the structure of the form
+	 */
 	public QueryInvoiceForm() {
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 		getQuery();
-		JLabel topicLabel = new JLabel("           Query Invoice Table           ");
+		JLabel topicLabel = new JLabel("Query Invoice Table     ");
 		JButton addButton = new JButton("Create");
 		JButton updateButton = new JButton("Update");
 		JButton deleteButton = new JButton("Delete");
@@ -81,7 +89,7 @@ public class QueryInvoiceForm {
 		searchBarField = new JTextField(
 				"Enter query here (Click on the field to clear it, then press Enter to clear query)");
 		searchBarField.setHorizontalAlignment(JTextField.CENTER);
-		searchBarField.setColumns(80);
+		searchBarField.setPreferredSize(new Dimension(500, 40));
 
 		searchBarField.addKeyListener(new KeyListener() {
 			String query;
@@ -164,11 +172,17 @@ public class QueryInvoiceForm {
 
 	
 	// getJPanel
+	/**
+	 * return the panel for mainframe
+	 */
 	public JPanel getJPanel() {
 		return queryInvoiceFormPanel;
 	}
 
 	// getQuery
+	/**
+	 * generate the JTable and list the data
+	 */
 	public void getQuery() {
 
 		String[] columnNames = { "Customer ID", "Product ID", "Product Quantity", "Date Issued", "Time Issued" };
@@ -247,6 +261,9 @@ public class QueryInvoiceForm {
 	}// end getQuery
 
 	/*-----------------------------------------------------------add Button----------------------------------------------------------*/
+	/**
+	 * define the action of button to add a new data
+	 */
 	private class addButtonHandler implements ActionListener {
 
 		// JFrame class
@@ -481,6 +498,9 @@ public class QueryInvoiceForm {
 	}// end addActionListener
 
 	/*-----------------------------------------------------------update Button----------------------------------------------------------*/
+	/**
+	 * define the action of button to update the data
+	 */
 	private class updateButtonHandler implements ActionListener {
 		class UpdateInvoiceForm extends JFrame {
 
@@ -686,6 +706,9 @@ public class QueryInvoiceForm {
 	}
 
 	/*-----------------------------------------------------------delete Button----------------------------------------------------------*/
+	/**
+	 * define the action of button to delete data
+	 */
 	private class deleteButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -768,6 +791,9 @@ public class QueryInvoiceForm {
 	}
 
 	/*-----------------------------------------------------------Refresh JTABLE----------------------------------------------------------*/
+	/**
+	 * refresh the Jtable to show the most updated data to user
+	 */
 	private void refreshJTable() {
 
 		Connection connection = null;
@@ -817,6 +843,9 @@ public class QueryInvoiceForm {
 	}// end refreshTable
 
 	/*-----------------------------------------------------------get Number of Rows from Database----------------------------------------------------------*/
+	/**
+	 * count the current data and return the number of rows
+	 */
 	private int getJTableNumberOfRows() {
 
 		int count = 0; /* create a integer object for rows count */
