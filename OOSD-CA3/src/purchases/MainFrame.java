@@ -17,6 +17,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+/**
+ * 
+ * @author Weihao, Jonathan, Chi
+ *
+ */
 public class MainFrame extends JFrame {
 
 	private JPanel topPanel = new JPanel();
@@ -35,6 +40,9 @@ public class MainFrame extends JFrame {
 			"Query Invoice Table", "Purchases Record Table" };
 	final JComboBox<String> comboBox = new JComboBox<>(ComboBoxString);
 
+	/**
+	 * Main Structure of System
+	 */
 	public MainFrame() { /* full screen: max-width: 1360, max-height: 841 */
 
 		/* JFrame setup */
@@ -93,7 +101,10 @@ public class MainFrame extends JFrame {
 		getContentPane().add(alterPanel, BorderLayout.CENTER);
 
 	}// end main
-
+	
+	/**
+	 * get the panel from other class
+	 */
 	private void setPanel() { /* set this JPanel equal to other class JPanel */
 
 		QueryCustomerForm queryCustomerObj = new QueryCustomerForm();
@@ -106,7 +117,10 @@ public class MainFrame extends JFrame {
 		purchaseRecordPanel = purchasesRecord.getJPanel();
 
 	}
-
+	
+	/**
+	 * Define the action of combo Box
+	 */
 	private class comboBoxHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 
