@@ -39,7 +39,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 /**
- * 
+ * This class is for the purchases record table frame
  * @author weihao, jonathan, chi
  *
  */
@@ -158,7 +158,7 @@ public class PurchasesRecordForm {
 	}
 	//getJPanel
 	/**
-	 * return the panel for mainframe
+	 * @return JPanel for Purchases Record Form mainframe
 	 */
 	public JPanel getJPanel() {
 		return RecentPurchasesFormPanel;

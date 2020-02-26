@@ -41,7 +41,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * 
+ * This class is for the invoice forms and table frame
  * @author Weihao, Jonathan, Chi
  *
  */
@@ -173,7 +173,8 @@ public class QueryInvoiceForm {
 	
 	// getJPanel
 	/**
-	 * return the panel for mainframe
+	 * 
+	 * @return JPanel for Query invoice Form mainframe
 	 */
 	public JPanel getJPanel() {
 		return queryInvoiceFormPanel;

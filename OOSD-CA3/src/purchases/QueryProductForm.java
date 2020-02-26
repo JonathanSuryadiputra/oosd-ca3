@@ -39,8 +39,9 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 /**
- * 
+ * This class is for the product forms and table frame 
  * @author Weihao, Jonathan, Chi
+ * 
  *
  */
 public class QueryProductForm {
@@ -175,7 +176,7 @@ public class QueryProductForm {
 	}
 	// getJPanel
 	/**
-	 * return the panel for mainframe
+	 * @return JPanel for query Product Form mainframe
 	 */
 	public JPanel getJPanel() {
 		return queryProductFormPanel;

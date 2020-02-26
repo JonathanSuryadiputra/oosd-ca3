@@ -3,14 +3,15 @@ package purchases;
 import javax.swing.JFrame;
 
 /**
- * 
+ * This class accesses the other frames as a driver class
  * @author Weihao, Jonathan, Chi
  *
  */
 public class SystemDriver {
 	
 	/**
-	 * the driver to start up the system
+	 * 
+	 * @param args -String main
 	 */
 	public static void main( String args[] ) {
 		MainFrame o = new MainFrame();

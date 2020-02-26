@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 /**
- * 
+ * This class is the main menu frame for the purchase system
  * @author Weihao, Jonathan, Chi
  *
  */

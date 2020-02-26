@@ -39,7 +39,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 /**
- * 
+ * This class is for the customer forms and table frame
  * @author Weihao, Johnthan, Chi
  *
  */
@@ -183,7 +183,7 @@ public class QueryCustomerForm {
 	}
 	
 	/**
-	 * return panel for the mainframe
+	 *@return JPanel for Query Customer Form mainframe
 	 */
 	public JPanel getJPanel() {
 		return queryCustomerFormPanel;
